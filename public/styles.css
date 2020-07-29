@@ -65,3 +65,8 @@ select {
     margin: 3px;
     padding: 3px;
 }
+
+.backLink:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

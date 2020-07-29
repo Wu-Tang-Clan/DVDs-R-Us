@@ -7,7 +7,6 @@ const Nav = () => {
     <div>
       <nav className="navDiv">
         <Link to="/search" style={{ color: "white" }}>
-          {" "}
           Search
         </Link>
         <Link to="/browse" style={{ color: "white" }}>
@@ -17,8 +16,7 @@ const Nav = () => {
           Your Orders
         </Link>
         <Link to="/cart" style={{ color: "white" }}>
-          {" "}
-          Cart{" "}
+          Cart
         </Link>
       </nav>
     </div>
