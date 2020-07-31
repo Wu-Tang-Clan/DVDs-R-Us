@@ -6,6 +6,6 @@ const Cart = db.define('cart', {
     movies: {
         type: ARRAY,
     }
-}
+})
 
 module.exports = { Cart }
