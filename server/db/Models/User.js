@@ -44,9 +44,6 @@ const User = db.define('User', {
             isEmail: true
         }
     },
-    cart: {
-        type: Sequelize.ARRAY,
-    },
     previousOrders: {
         type: Sequelize.ARRAY,
     },

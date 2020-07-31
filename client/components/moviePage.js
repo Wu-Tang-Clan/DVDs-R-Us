@@ -17,6 +17,7 @@ class MoviePage extends Component {
         const movie = this.props.movies.find(movie => movie.id === id);
         const { quantity } = this.state;
         const { history } = this.props.props;
+        console.log(movie)
         return (
             <div>
                 <p className='backLink' onClick={() => history.goBack() }>Back</p>

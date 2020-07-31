@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getMovies } from '../redux/movies/actions';
 import { generateGenres, movieFilter } from '../utilities';
+import singleMovieBox from './singleMovieBox'
 
 class Browse extends Component {
 
@@ -24,6 +25,8 @@ class Browse extends Component {
         const { filter, sort, genres, sortMethods } = this.state;
         let { movies } = this.props;
         const { path } = this.props.props.match;
+        console.log('props is ',this.props)
+        console.log('path is ',path)
         movies = movieFilter(movies, filter, sort);
         return (
             <div>
@@ -47,7 +50,7 @@ class Browse extends Component {
                             {
                                 movies.map(movie => {
                                     return (
-                                    <li key={ movie.id }><Link to={ `${path}/${movie.id}` }>{ movie.title } ({ movie.year })</Link></li>
+                                    singleMovieBox(movie)
                                     )
                                 })
                             }
