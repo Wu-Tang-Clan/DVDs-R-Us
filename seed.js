@@ -1,6 +1,6 @@
 const imdb = require('imdb-api');
 const chalk = require('chalk');
-const { Movie } = require('./server/db/Models/Movie');
+const { Movie, User, Session } = require('./server/db/Models/index');
 const { db } = require('./server/db/db');
 const movieObject = require('./movieObject');
 require('dotenv').config();
@@ -44,6 +44,11 @@ const seed = async () => {
         });
       });
   });
+
+  User.create({
+    username: 'admin',
+    password: 'password123'
+  })
 
   console.log(chalk.greenBright('Data is seeded'));
 };

@@ -1,0 +1,3 @@
+const USER_TYPES = { LOGIN: 'LOGIN', LOGIN_CHECK: 'LOGIN_CHECK', LOG_OUT: 'LOG_OUT' };
+
+export default USER_TYPES;

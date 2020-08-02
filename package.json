@@ -26,6 +26,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "chalk": "^4.1.0",
+    "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "imdb-api": "^4.1.1",
@@ -53,11 +54,13 @@
     "babel-loader": "^8.1.0",
     "eslint": "^7.6.0",
     "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "^4.0.8",
     "jest": "^26.1.0",
+    "prettier": "^2.0.5",
     "webpack": "^4.44.0",
     "webpack-cli": "^3.3.12"
   }
