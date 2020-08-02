@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const singleMovieBox = (movie) => (
-  <div className="box" style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <div key={movie.id} className="box" style={{ display: 'flex', justifyContent: 'space-between' }}>
     <div className="column is-one-third">
       <img src={movie.poster} alt={movie.name} width="80" height="100" />
     </div>
