@@ -16,61 +16,117 @@ class Nav extends Component {
   render() {
     const {
       // eslint-disable-next-line no-shadow
-      loggedIn, loggedInUser, logOut, props: { history },
+      loggedIn,
+      loggedInUser,
+      // eslint-disable-next-line no-shadow
+      logOut,
+      props: { history },
     } = this.props;
     return (
       <div>
-        <nav>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-                <p className="is-size-6" style={{ marginBottom: '5px' }}>{ loggedIn ? `Hello ${loggedInUser.username}!` : 'Hello Guest! Please login or signup!'}</p>
-              </div>
-              {
-                loggedIn
-                  ? <button onClick={() => logOut(history)} className="button" type="button" style={{ margin: '5px 10px' }}>Log Out</button>
-                  : <Link className="button is-link" to="/login" style={{ margin: '5px 10px' }}>Login</Link>
-              }
-              {
-                !loggedIn
-                  ? <Link className="button is-link" to="/signup" style={{ margin: '5px 10px' }}>Sign-Up</Link>
-                  : null
-              }
-            </div>
-            <div className="navDiv">
-              <Link to="/about" style={{ color: 'white' }}>
+        <nav
+          className="navbar is-link"
+          role="navigation"
+          aria-label="main navigation"
+        >
+          <div className="navbar-brand">
+            <a className="navbar-item" href="# ">
+              <img
+                alt=""
+                src=""
+                width="100"
+                height="28"
+              />
+            </a>
+
+            <a
+              href="# "
+              role="button"
+              className="navbar-burger burger"
+              aria-label="menu"
+              aria-expanded="false"
+              data-target="navbarBasicExample"
+            >
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+            </a>
+          </div>
+
+          <div id="navbarBasicExample" className="navbar-menu">
+            <div className="navbar-start">
+              <Link to="/about" className="navbar-item">
                 About
               </Link>
-              <Link to="/search" style={{ color: 'white' }}>
+
+              <Link to="/search" className="navbar-item">
                 Search
               </Link>
-              <Link to="/browse" style={{ color: 'white' }}>
+              <Link to="/browse" className="navbar-item">
                 Browse
               </Link>
-              <Link to="/yourOrders" style={{ color: 'white' }}>
+              <Link to="/yourOrders" className="navbar-item">
                 Your Orders
               </Link>
-              <Link to="/cart" style={{ color: 'white' }}>
+              <Link to="/cart" className="navbar-item">
                 Cart
               </Link>
-              {
-                loggedInUser.isAdmin
-                  ? (
-                    <Link style={{ color: 'white' }} to={`/admin/${loggedInUser.id}`}>
-                      Admin
+              {loggedInUser.isAdmin ? (
+                <Link className="navbar-item" to={`/admin/${loggedInUser.id}`}>
+                  Admin
+                </Link>
+              ) : null}
+              {loggedIn ? (
+                <Link
+                  className="navbar-item"
+                  to={`/myaccount/${loggedInUser.id}`}
+                >
+                  My Account
+                </Link>
+              ) : null}
+            </div>
+
+            <div className="navbar-end">
+              <div className="navbar-item">
+                <div className="buttons">
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <p className="is-size-6" style={{ marginBottom: '5px' }}>
+                      {loggedIn
+                        ? `Hello ${loggedInUser.username}!`
+                        : 'Hello Guest! Please login or signup!'}
+                    </p>
+                  </div>
+                  {loggedIn ? (
+                    <button
+                      onClick={() => logOut(history)}
+                      className="button is-primary"
+                      type="button"
+                    >
+                      Log Out
+                    </button>
+                  ) : (
+                    <Link
+                      className="button is-primary"
+                      to="/login"
+                      style={{ margin: '5px 10px' }}
+                    >
+                      <strong>Login</strong>
                     </Link>
-                  )
-                  : null
-              }
-              {
-                loggedIn
-                  ? (
-                    <Link style={{ color: 'white' }} to={`/myaccount/${loggedInUser.id}`}>
-                      My Account
+                  )}
+
+                  {!loggedIn ? (
+                    <Link className="button is-primary" to="/signup">
+                      <strong>Sign up</strong>
                     </Link>
-                  )
-                  : null
-              }
+                  ) : null}
+                </div>
+              </div>
             </div>
           </div>
         </nav>
