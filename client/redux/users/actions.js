@@ -1,5 +1,6 @@
 /* eslint-disable no-alert */
 import USER_TYPES from './types';
+import CART_TYPES from '../cart/types';
 
 const axios = require('axios');
 
@@ -40,6 +41,9 @@ export const logOut = (history) => (dispatch) => {
     .then(() => {
       dispatch({
         type: USER_TYPES.LOG_OUT,
+      });
+      dispatch({
+        type: CART_TYPES.CLEAR_STORE_CART,
       });
       history.push('/logout');
     });

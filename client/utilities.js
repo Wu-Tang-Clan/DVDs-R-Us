@@ -1,3 +1,6 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-plusplus */
+
 export const generateGenres = (movies) => {
   const genreArray = [];
   movies.forEach((movie) => {
@@ -104,4 +107,19 @@ export const adminInventoryFilter = (movies, search) => {
     return movies.filter((movie) => movie.title.toLowerCase().includes(search.toLowerCase()));
   }
   return movies;
+};
+
+export const orderParser = (orders) => {
+  let parsed = [];
+  parsed = orders.reduce((a, b) => {
+    for (let i = 0; i < a.length; i++) {
+      if (a[i].movieId === b.movieId) {
+        a[i].quantity += b.quantity;
+        return a;
+      }
+    }
+    a.push(b);
+    return a;
+  }, []);
+  return parsed;
 };

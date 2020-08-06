@@ -2,6 +2,7 @@ import CART_TYPES from './types';
 
 const initialState = {
   orders: [],
+  total: 0,
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -9,7 +10,20 @@ const cartReducer = (state = initialState, action) => {
     case CART_TYPES.ADD_TO_CART:
       return {
         ...state,
-        movies: action.movies,
+        orders: [...state.orders, action.order],
+        total: (Number(state.total) + Number(action.price)).toFixed(2),
+      };
+    case CART_TYPES.GET_CART_ITEMS:
+      return {
+        ...state,
+        orders: action.orders,
+        total: Number(action.total).toFixed(2),
+      };
+    case CART_TYPES.CLEAR_STORE_CART:
+      return {
+        ...state,
+        orders: [],
+        total: 0,
       };
     default: return state;
   }

@@ -10,7 +10,7 @@ import { addToCart } from '../redux/cart/actions';
 
 class SingleMovieBox extends Component {
   state = {
-    quantity: 0,
+    quantity: 1,
   }
 
   render() {
@@ -52,7 +52,7 @@ class SingleMovieBox extends Component {
                 <div className="select">
                   <input
                     type="number"
-                    min="0"
+                    min="1"
                     max="20"
                     value={this.state.quantity}
                     onChange={(ev) => this.setState({ quantity: ev.target.value })}

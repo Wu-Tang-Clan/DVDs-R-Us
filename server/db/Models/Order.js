@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 
-const { UUID, UUIDV4, INTEGER } = Sequelize;
+const {
+  UUID, UUIDV4, INTEGER, STRING,
+} = Sequelize;
 const { db } = require('../db');
 
 const Order = db.define('order', {
@@ -15,6 +17,14 @@ const Order = db.define('order', {
     validate: {
       min: 0,
     },
+  },
+  movieId: {
+    type: STRING,
+    unique: false,
+  },
+  CartId: {
+    type: STRING,
+    unique: false,
   },
 });
 
