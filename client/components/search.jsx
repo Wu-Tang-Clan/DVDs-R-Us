@@ -113,7 +113,7 @@ class Search extends Component {
               </option>
             </select>
           </div>
-          <button className="button" type="button" onClick={(ev) => this.handleSearch(ev)}>
+          <button className="button is-link" type="button" onClick={(ev) => this.handleSearch(ev)}>
             Search
           </button>
         </form>

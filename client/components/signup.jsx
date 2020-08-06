@@ -17,8 +17,11 @@ class Signup extends Component {
     const {
       // eslint-disable-next-line no-shadow
       signup,
+      props: {
+        history,
+      },
     } = this.props;
-    await signup(username, password);
+    await signup(username, password, history);
   };
 
   render() {
@@ -46,7 +49,7 @@ class Signup extends Component {
               onChange={(e) => this.setState({ password: e.target.value })}
               type="password"
             />
-            <button className="button" type="submit">Signup</button>
+            <button className="button is-link" type="submit">Signup</button>
           </form>
           <div className="column" />
         </div>

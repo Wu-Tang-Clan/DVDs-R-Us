@@ -15,6 +15,7 @@ import Login from './components/login';
 import Admin from './components/admin';
 import LogOut from './components/logoutPage';
 import Signup from './components/signup';
+import UserAccount from './components/userAccount';
 
 // export default class App extends Component {
 const App = () => (
@@ -36,6 +37,7 @@ const App = () => (
         <Route path="/admin/:id?" render={(props) => <Admin props={props} />} />
         <Route path="/search/:id?" render={(props) => <MoviePage props={props} />} />
         <Route path="/signup" render={(props) => <Signup props={props} />} />
+        <Route path="/useraccount" render={(props) => <UserAccount props={props} />} />
         <Redirect to="/" />
       </Switch>
     </HashRouter>

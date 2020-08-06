@@ -55,7 +55,7 @@ export const getUsers = () => (dispatch) => {
     });
 };
 
-export const signup = (username, password) => (dispatch) => {
+export const signup = (username, password, history) => (dispatch) => {
   axios.post('/api/users/signup', { username, password })
     .then(async (res) => {
       dispatch({
@@ -63,6 +63,9 @@ export const signup = (username, password) => (dispatch) => {
         newUser: res.data,
         status: res.status,
       });
+      if (res.status === 200) {
+        history.goBack();
+      }
     })
     .catch((e) => {
       throw e;

@@ -29,11 +29,11 @@ class Nav extends Component {
               {
                 loggedIn
                   ? <button onClick={() => logOut(history)} className="button" type="button" style={{ margin: '5px 10px' }}>Log Out</button>
-                  : <Link className="button" to="/login" style={{ margin: '5px 10px' }}>Login</Link>
+                  : <Link className="button is-link" to="/login" style={{ margin: '5px 10px' }}>Login</Link>
               }
               {
                 !loggedIn
-                  ? <Link className="button" to="/signup" style={{ margin: '5px 10px' }}>Sign-Up</Link>
+                  ? <Link className="button is-link" to="/signup" style={{ margin: '5px 10px' }}>Sign-Up</Link>
                   : null
               }
             </div>
@@ -58,6 +58,15 @@ class Nav extends Component {
                   ? (
                     <Link style={{ color: 'white' }} to={`/admin/${loggedInUser.id}`}>
                       Admin
+                    </Link>
+                  )
+                  : null
+              }
+              {
+                loggedIn
+                  ? (
+                    <Link style={{ color: 'white' }} to={`/myaccount/${loggedInUser.id}`}>
+                      My Account
                     </Link>
                   )
                   : null

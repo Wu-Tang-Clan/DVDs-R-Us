@@ -63,12 +63,12 @@ class SingleMovieBox extends Component {
             <button
               type="submit"
               style={{ margin: '10px' }}
-              className="button"
+              className="button is-link"
               onClick={() => addToCart(movie.id, quantity)}
             >
               Add To Cart
             </button>
-            <button type="submit" style={{ margin: '10px' }} className="button">Add to Wishlist</button>
+            <button type="submit" style={{ margin: '10px' }} className="button is-link">Add to Wishlist</button>
           </div>
         </div>
       </div>

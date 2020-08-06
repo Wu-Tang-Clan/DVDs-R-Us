@@ -174,8 +174,8 @@ class MoviePage extends Component {
                           {`Price: $${parseFloat(movie.price).toFixed(2)}`}
                         </p>
                         <input className="input" type="number" min="1" value={quantity} onChange={(e) => this.setState({ quantity: e.target.value })} />
-                        <button style={{ margin: '10px' }} className="button" type="button">Add To Cart</button>
-                        <button style={{ margin: '10px' }} className="button" type="button">Add to Wishlist</button>
+                        <button style={{ margin: '10px' }} className="button is-link" type="button">Add To Cart</button>
+                        <button style={{ margin: '10px' }} className="button is-link" type="button">Add to Wishlist</button>
                       </div>
                     </div>
                   </div>
@@ -215,7 +215,7 @@ class MoviePage extends Component {
                               </div>
                               <div className="field">
                                 <div className="control">
-                                  <button disabled={!userReview} className="button" type="submit">Submit</button>
+                                  <button disabled={!userReview} className="button is-link" type="submit">Submit</button>
                                 </div>
                               </div>
                             </form>

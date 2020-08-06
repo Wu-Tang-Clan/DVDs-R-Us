@@ -83,7 +83,7 @@ class Admin extends Component {
                         </p>
                       </div>
                       <div className="column is-one-quarter">
-                        <button type="button" value={movie.id} onClick={handleRemoveMovie} className="button">Remove Movie</button>
+                        <button type="button" value={movie.id} onClick={handleRemoveMovie} className="button is-link">Remove Movie</button>
                       </div>
                     </div>
                   </div>
@@ -110,9 +110,8 @@ class Admin extends Component {
                   </div>
                 </div>
                 <button
-                  style={{ width: '100%', marginBottom: '10px' }}
                   type="submit"
-                  className="button"
+                  className="button is-link"
                 >
                   Search
                 </button>
@@ -139,7 +138,7 @@ class Admin extends Component {
                           </p>
                         </div>
                         <div className="column is-one-quarter">
-                          <button onClick={handleOrder} className="button" type="button" value={movie.imdbid}>Order Stock</button>
+                          <button onClick={handleOrder} className="button is-link" type="button" value={movie.imdbid}>Order Stock</button>
                         </div>
                       </div>
                     </div>

@@ -60,7 +60,7 @@ class Login extends Component {
                 type="password"
               />
             </label>
-            <button className="button" type="submit">Login</button>
+            <button className="button is-link" type="submit">Login</button>
           </form>
           <div className="column is-one-third" />
         </div>
