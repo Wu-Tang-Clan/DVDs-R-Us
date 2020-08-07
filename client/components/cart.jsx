@@ -126,7 +126,7 @@ Cart.propTypes = {
   editCartQuantity: propTypes.func.isRequired,
   orders: propTypes.arrayOf(propTypes.object).isRequired,
   movies: propTypes.arrayOf(propTypes.object).isRequired,
-  total: propTypes.number.isRequired,
+  total: propTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -65,13 +65,13 @@ export const editCartQuantity = (movieId, cartId, quantity) => async (dispatch) 
     .then((res) => {
       if (res.data.length) {
         dispatch({
-          type: CART_TYPES.REMOVE_FROM_CART,
+          type: CART_TYPES.EDIT_CART_QUANTITY,
           orders: res.data,
           total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
         });
       } else {
         dispatch({
-          type: CART_TYPES.REMOVE_FROM_CART,
+          type: CART_TYPES.EDIT_CART_QUANTITY,
           orders: res.data,
           total: Number(0),
         });
