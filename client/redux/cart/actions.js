@@ -36,3 +36,45 @@ export const getCartItems = () => async (dispatch) => {
       }
     });
 };
+
+export const removeFromCart = (movieId, cartId) => async (dispatch) => {
+  await axios.delete(`/api/cart/removefromcart/${movieId}/${cartId}`);
+  await axios.get('/api/cart')
+    .then((res) => {
+      if (res.data.length) {
+        dispatch({
+          type: CART_TYPES.REMOVE_FROM_CART,
+          orders: res.data,
+          total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
+        });
+      } else {
+        dispatch({
+          type: CART_TYPES.REMOVE_FROM_CART,
+          orders: res.data,
+          total: Number(0),
+        });
+      }
+    });
+};
+
+export const editCartQuantity = (movieId, cartId, quantity) => async (dispatch) => {
+  await axios.put(`/api/cart/editcartquantity/${movieId}/${cartId}`, {
+    quantity,
+  });
+  await axios.get('/api/cart')
+    .then((res) => {
+      if (res.data.length) {
+        dispatch({
+          type: CART_TYPES.EDIT_CART_QUANTITY,
+          orders: res.data,
+          total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
+        });
+      } else {
+        dispatch({
+          type: CART_TYPES.EDIT_CART_QUANTITY,
+          orders: res.data,
+          total: Number(0),
+        });
+      }
+    });
+};

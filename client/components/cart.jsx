@@ -2,16 +2,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { getCartItems } from '../redux/cart/actions';
+import { getCartItems, removeFromCart, editCartQuantity } from '../redux/cart/actions';
 import { orderParser } from '../utilities';
 import { getMovies } from '../redux/movies/actions';
 
 class Cart extends Component {
+  // state = {
+  //   quantity,
+  // }
+
   async componentDidMount() {
     const { getCartItems, getMovies } = this.props;
 
     await getMovies();
     await getCartItems();
+  }
+
+  async handleRemoveFromCart(movieId, cartId) {
+    const { removeFromCart } = this.props;
+    await removeFromCart(movieId, cartId);
+    alert('Movie is now removed from your cart!');
+  }
+
+  async handleChangeInCartQuantity(movieId, cartId, quantity) {
+    console.log('handleChangeInCartQuantity --- ', movieId, cartId, quantity);
+    const { editCartQuantity } = this.props;
+    await editCartQuantity(movieId, cartId, quantity);
+    alert('quantiy has been updated for you cart!');
   }
 
   render() {
@@ -51,12 +68,6 @@ class Cart extends Component {
                   </p>
                 </div>
                 <div className="media-content">
-                  <p className="title is-4">Price</p>
-                  <p className="subtitle is-6">
-                    {(order.quantity * movie[0].price).toFixed(2)}
-                  </p>
-                </div>
-                <div className="media-content">
                   <p className="title is-4" />
 
                   <p className="subtitle is-6">
@@ -65,6 +76,8 @@ class Cart extends Component {
                       min="1"
                       max="20"
                       value={order.quantity}
+                      onChange={(ev) => this.handleChangeInCartQuantity(movie[0].id,
+                        order.CartId, ev.target.value)}
                     />
                   </p>
                 </div>
@@ -76,6 +89,7 @@ class Cart extends Component {
                       type="submit"
                       style={{ margin: '10px' }}
                       className="button is-link"
+                      onClick={() => this.handleRemoveFromCart(movie[0].id, order.CartId)}
                     >
                       Remove
                     </button>
@@ -108,9 +122,11 @@ class Cart extends Component {
 Cart.propTypes = {
   getCartItems: propTypes.func.isRequired,
   getMovies: propTypes.func.isRequired,
+  removeFromCart: propTypes.func.isRequired,
+  editCartQuantity: propTypes.func.isRequired,
   orders: propTypes.arrayOf(propTypes.object).isRequired,
   movies: propTypes.arrayOf(propTypes.object).isRequired,
-  total: propTypes.number.isRequired,
+  total: propTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -119,6 +135,8 @@ const mapStateToProps = (state) => ({
   movies: state.movieReducer.movies,
 });
 
-const mapDispatchToProps = { getCartItems, getMovies };
+const mapDispatchToProps = {
+  getCartItems, getMovies, removeFromCart, editCartQuantity,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
