@@ -1,9 +1,13 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/state-in-constructor */
 /* eslint react/prop-types: 0 */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { loginCheck, logOut } from '../redux/users/actions';
+import bloccBusterV3 from '../assets/images/bloccBusterV3.jpg';
 
 class Nav extends Component {
   componentDidMount() {
@@ -25,7 +29,13 @@ class Nav extends Component {
     return (
       <div>
         <nav
-          className="navbar is-link"
+          style={{
+            backgroundColor: '#1030AD',
+            // backgroundColor: 'transparent',
+            color: '#ffcc00',
+            width: '100%',
+          }}
+          className="navbar"
           role="navigation"
           aria-label="main navigation"
         >
@@ -33,32 +43,38 @@ class Nav extends Component {
             <a className="navbar-item" href="# ">
               <img
                 alt=""
-                src=""
-                width="100"
-                height="28"
+                src={bloccBusterV3}
+                width="112"
+                height="50"
               />
             </a>
 
-            <a
-              href="# "
+            <div
+              onClick={() => {
+                const toggle = document.querySelector('.nav-toggle');
+                const menu = document.querySelector('.navbar-menu');
+                toggle.classList.toggle('is-active');
+                menu.classList.toggle('is-active');
+              }}
+              onKeyDown={() => {}}
               role="button"
-              className="navbar-burger burger"
+              className="navbar-burger burger nav-toggle"
               aria-label="menu"
               aria-expanded="false"
-              data-target="navbarBasicExample"
+              data-target="bloccbusterNavBar"
             >
               <span aria-hidden="true" />
               <span aria-hidden="true" />
               <span aria-hidden="true" />
-            </a>
+            </div>
           </div>
 
-          <div id="navbarBasicExample" className="navbar-menu">
+          <div id="bloccbusterNavBar" className="navbar-menu">
             <div className="navbar-start">
-              <Link to="/about" className="navbar-item">
+              {/* <Link to="/about" className="navigationLink">
                 About
-              </Link>
-
+              </Link> */}
+              <a className="navbar-item" href="#/about">About</a>
               <Link to="/search" className="navbar-item">
                 Search
               </Link>
@@ -105,14 +121,14 @@ class Nav extends Component {
                   {loggedIn ? (
                     <button
                       onClick={() => logOut(history)}
-                      className="button is-primary"
+                      className="button brandButton"
                       type="button"
                     >
                       Log Out
                     </button>
                   ) : (
                     <Link
-                      className="button is-primary"
+                      className="button brandButton"
                       to="/login"
                       style={{ margin: '5px 10px' }}
                     >
@@ -121,7 +137,11 @@ class Nav extends Component {
                   )}
 
                   {!loggedIn ? (
-                    <Link className="button is-primary" to="/signup">
+                    <Link
+                      className="button brandButton"
+                      to="/signup"
+                      style={{ margin: '5px 10px' }}
+                    >
                       <strong>Sign up</strong>
                     </Link>
                   ) : null}

@@ -1,7 +1,12 @@
-body {
-    font-family: verdana;
+body, html {
+    /* font-family: verdana; */
+    height: 100%;
+    background-image: url('https://i.pinimg.com/originals/e9/7b/ab/e97bab7d177c3a4807c9ae8a61c799bc.jpg');
 }
 
+.subtitle {
+    color: white;
+}
 .navDiv {
     display: flex;
     justify-content: space-around;
@@ -11,39 +16,40 @@ body {
     height: 50px;
 }
 
-/* input,
-select,
-button {
-    height: 1.75rem;
-    font-size: 1rem;
+a {
+    background-color: transparent;
+}
+
+.navbar-menu {
+    background-color: #1030AD;
+}
+
+.navbar-item {
+    background-color: #1030AD;
+    color: #ffcc00;
+}
+
+/* .navbar-item:hover {
+    background-color: #ffcc00;
+    color: #1030AD;
 } */
 
-/* form {
-    padding: 1rem;
-    width: 40%;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-} */
+.box {
+    background-color: #1030AD;
+    border: 3px solid #ffcc00;
+}
 
-/* form>div {
-    display: flex;
-    margin-bottom: 1rem;
-} */
+.navbar-burger {
+    color: #ffcc00;
+}
 
-/* form>div>label {
-    flex: 1;
-    display: flex;
-    font-weight: bold;
-} */
+.navbar-burger:hover {
+    color: #ffcc00;
+}
 
-/* form>div>input,
-select {
-    flex: 3;
-} */
-
-
+.button, .is-link {
+    color: #ffcc00;
+}
 .outerBox {
     display: flex;
     flex-wrap: wrap;
@@ -66,7 +72,7 @@ select {
     padding: 3px;
 }
 
-.backLink:hover {
+.navLink:hover {
     text-decoration: underline;
     cursor: pointer;
 }
@@ -83,4 +89,25 @@ select {
     /* border: 1px solid black; */
     border-radius: 5px;
     overflow-y: scroll;
+}
+
+.brandButton {
+    background-color: #ffcc00;
+    color: #1030AD;
+}
+
+.button:hover {
+    transform: scale(1.05);
+    color: #1030AD;
+}
+
+.titleLink {
+    color: white;
+    font-size: 20px;
+    text-shadow: 1px 1px 2px black;
+}
+
+.titleLink:hover {
+    color: #ffcc00;
+    text-decoration: underline;
 }
