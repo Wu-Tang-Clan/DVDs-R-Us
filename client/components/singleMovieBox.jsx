@@ -19,34 +19,44 @@ class SingleMovieBox extends Component {
     // console.log(movie);
     return (
       <div key={movie.id} className="box" style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div className="columns">
-          <div className="column is one-fifth">
+        <div className="columns is-vcentered">
+          <div className="column is-3">
             <img src={movie.poster} alt={movie.name} width="80" height="100" />
           </div>
-          <div className="column is-three-fifths">
-            <p key={movie.id}>
-              <Link to={`${history.location.pathname.slice(1)}/${movie.id}`}>
-                {movie.title}
+          <div className="column is-6">
+            <div className="field">
+              <div className="control">
+                <Link
+                  className="titleLink"
+                  to={`${history.location.pathname.slice(1)}/${movie.id}`}
+                >
+                  {movie.title}
+                  {' '}
+                  (
+                  {movie.year}
+                  )
+                </Link>
                 {' '}
-                (
-                {movie.year}
-                )
-              </Link>
-              {' '}
-            </p>
-            <p className="subtitle is-6" style={{ marginTop: '20px' }}>
-              Starring:
-              {movie.actors.join(', ')}
-            </p>
-            <p className="subtitle is-6" style={{ marginTop: '20px' }}>
-              Runtime:
-              {movie.runtime}
-            </p>
-            <p className="subtitle is-6" style={{ marginTop: '20px' }}>
-              {`Price: $${parseFloat(movie.price).toFixed(2)}`}
-            </p>
+              </div>
+            </div>
+            <div className="field">
+              <div className="control">
+                <p className="subtitle is-6" style={{ marginTop: '20px' }}>
+                  Starring:
+                  {movie.actors.join(', ')}
+                </p>
+                <p className="subtitle is-6" style={{ marginTop: '20px' }}>
+                  Runtime:
+                  {movie.runtime}
+                </p>
+                <p className="subtitle is-6" style={{ marginTop: '20px' }}>
+                  {`Price: $${parseFloat(movie.price).toFixed(2)}`}
+                </p>
+              </div>
+            </div>
+
           </div>
-          <div className="column is-one-fifth" style={{ display: 'flex', direction: 'column' }}>
+          <div className="column is-3">
             <div className="field">
               <div className="control">
                 <div className="select">
@@ -58,6 +68,12 @@ class SingleMovieBox extends Component {
                     onChange={(ev) => this.setState({ quantity: ev.target.value })}
                   />
                 </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                />
               </div>
             </div>
             <button
@@ -69,6 +85,7 @@ class SingleMovieBox extends Component {
               Add To Cart
             </button>
             <button type="submit" style={{ margin: '10px' }} className="button is-link">Add to Wishlist</button>
+
           </div>
         </div>
       </div>

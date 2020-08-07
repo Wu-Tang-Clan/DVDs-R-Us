@@ -58,7 +58,7 @@ class Cart extends Component {
                   <p className="subtitle is-6">{movie[0].title}</p>
                 </div>
                 <div className="media-content">
-                  <p className="title is-4">Qunatity</p>
+                  <p className="title is-4">Quantity</p>
                   <p className="subtitle is-6">{order.quantity}</p>
                 </div>
                 <div className="media-content">
