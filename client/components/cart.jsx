@@ -2,11 +2,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { getCartItems, removeFromCart } from '../redux/cart/actions';
+import { getCartItems, removeFromCart, editCartQuantity } from '../redux/cart/actions';
 import { orderParser } from '../utilities';
 import { getMovies } from '../redux/movies/actions';
 
 class Cart extends Component {
+  // state = {
+  //   quantity,
+  // }
+
   async componentDidMount() {
     const { getCartItems, getMovies } = this.props;
 
@@ -18,6 +22,13 @@ class Cart extends Component {
     const { removeFromCart } = this.props;
     await removeFromCart(movieId, cartId);
     alert('Movie is now removed from your cart!');
+  }
+
+  async handleChangeInCartQuantity(movieId, cartId, quantity) {
+    console.log('handleChangeInCartQuantity --- ', movieId, cartId, quantity);
+    const { editCartQuantity } = this.props;
+    await editCartQuantity(movieId, cartId, quantity);
+    alert('quantiy has been updated for you cart!');
   }
 
   render() {
@@ -65,6 +76,8 @@ class Cart extends Component {
                       min="1"
                       max="20"
                       value={order.quantity}
+                      onChange={(ev) => this.handleChangeInCartQuantity(movie[0].id,
+                        order.CartId, ev.target.value)}
                     />
                   </p>
                 </div>
@@ -110,6 +123,7 @@ Cart.propTypes = {
   getCartItems: propTypes.func.isRequired,
   getMovies: propTypes.func.isRequired,
   removeFromCart: propTypes.func.isRequired,
+  editCartQuantity: propTypes.func.isRequired,
   orders: propTypes.arrayOf(propTypes.object).isRequired,
   movies: propTypes.arrayOf(propTypes.object).isRequired,
   total: propTypes.number.isRequired,
@@ -121,6 +135,8 @@ const mapStateToProps = (state) => ({
   movies: state.movieReducer.movies,
 });
 
-const mapDispatchToProps = { getCartItems, getMovies, removeFromCart };
+const mapDispatchToProps = {
+  getCartItems, getMovies, removeFromCart, editCartQuantity,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

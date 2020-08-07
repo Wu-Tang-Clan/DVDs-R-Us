@@ -35,4 +35,18 @@ cartRouter.delete('/removefromcart/:movieid/:cartid', async (req, res) => {
   res.sendStatus(200);
 });
 
+cartRouter.put('/editcartquantity/:movieid/:cartid', async (req, res) => {
+  await Order.update({ quantity: 0 },
+    { where: { movieId: req.params.movieid, CartId: req.params.cartid } });
+  const order = await Order.findOne({
+    where: {
+      movieId: req.params.movieid,
+      CartId: req.params.cartid,
+    },
+  });
+  await Order.update({ quantity: req.body.quantity },
+    { where: { movieId: order.movieId, CartId: order.CartId } });
+  res.sendStatus(200);
+});
+
 module.exports = cartRouter;
