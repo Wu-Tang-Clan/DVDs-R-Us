@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { getCartItems } from '../redux/cart/actions';
+import { getCartItems, removeFromCart } from '../redux/cart/actions';
 import { orderParser } from '../utilities';
 import { getMovies } from '../redux/movies/actions';
 
@@ -12,6 +12,12 @@ class Cart extends Component {
 
     await getMovies();
     await getCartItems();
+  }
+
+  async handleRemoveFromCart(movieId, cartId) {
+    const { removeFromCart } = this.props;
+    await removeFromCart(movieId, cartId);
+    alert('Movie is now removed from your cart!');
   }
 
   render() {
@@ -51,12 +57,6 @@ class Cart extends Component {
                   </p>
                 </div>
                 <div className="media-content">
-                  <p className="title is-4">Price</p>
-                  <p className="subtitle is-6">
-                    {(order.quantity * movie[0].price).toFixed(2)}
-                  </p>
-                </div>
-                <div className="media-content">
                   <p className="title is-4" />
 
                   <p className="subtitle is-6">
@@ -76,6 +76,7 @@ class Cart extends Component {
                       type="submit"
                       style={{ margin: '10px' }}
                       className="button is-link"
+                      onClick={() => this.handleRemoveFromCart(movie[0].id, order.CartId)}
                     >
                       Remove
                     </button>
@@ -108,6 +109,7 @@ class Cart extends Component {
 Cart.propTypes = {
   getCartItems: propTypes.func.isRequired,
   getMovies: propTypes.func.isRequired,
+  removeFromCart: propTypes.func.isRequired,
   orders: propTypes.arrayOf(propTypes.object).isRequired,
   movies: propTypes.arrayOf(propTypes.object).isRequired,
   total: propTypes.number.isRequired,
@@ -119,6 +121,6 @@ const mapStateToProps = (state) => ({
   movies: state.movieReducer.movies,
 });
 
-const mapDispatchToProps = { getCartItems, getMovies };
+const mapDispatchToProps = { getCartItems, getMovies, removeFromCart };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

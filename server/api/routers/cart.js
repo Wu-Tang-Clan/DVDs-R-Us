@@ -30,4 +30,9 @@ cartRouter.get('/', async (req, res) => {
   }
 });
 
+cartRouter.delete('/removefromcart/:movieid/:cartid', async (req, res) => {
+  await Order.destroy({ where: { CartId: req.params.cartid, movieId: req.params.movieid } });
+  res.sendStatus(200);
+});
+
 module.exports = cartRouter;

@@ -25,6 +25,12 @@ const cartReducer = (state = initialState, action) => {
         orders: [],
         total: 0,
       };
+    case CART_TYPES.REMOVE_FROM_CART:
+      return {
+        ...state,
+        orders: action.orders,
+        total: Number(action.total).toFixed(2),
+      };
     default: return state;
   }
 };
