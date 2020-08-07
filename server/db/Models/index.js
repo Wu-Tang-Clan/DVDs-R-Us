@@ -14,8 +14,8 @@ Review.belongsTo(Movie);
 Movie.hasMany(Review);
 Cart.belongsTo(User);
 // Order.belongsTo(Cart);
-Movie.belongsToMany(Cart, { through: Order });
-Cart.belongsToMany(Movie, { through: Order });
+// Movie.belongsToMany(Cart, { through: Order, unique: false });
+// Cart.belongsToMany(Movie, { through: Order, unique: false });
 
 module.exports = {
   Movie,

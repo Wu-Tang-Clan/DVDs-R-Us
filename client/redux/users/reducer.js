@@ -39,9 +39,10 @@ const userReducer = (state = initialState, action) => {
       if (action.newUser !== '' && action.status === 200) { // ok
         return {
           ...state,
-          users: action.newUser,
+          loggedInUser: action.newUser,
           userCreated: true,
           firstTimeSignup: true,
+          loggedIn: true,
         };
       }
       if (action.status === 204) { // Username Exists

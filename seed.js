@@ -71,8 +71,8 @@ const seed = async () => {
     username: 'Kwon',
     password: 'password123',
   });
-
-  console.log(chalk.greenBright('Data is seeded'));
 };
 
 seed();
+
+console.log(chalk.greenBright('Data is seeded'));

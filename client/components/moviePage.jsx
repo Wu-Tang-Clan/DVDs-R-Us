@@ -10,7 +10,7 @@ import ReviewList from './reviewList';
 
 class MoviePage extends Component {
   state = {
-    quantity: 0,
+    quantity: 1,
     userRating: 1,
     userReview: '',
   }

@@ -94,7 +94,26 @@ userRouter.post('/signup', async (req, res) => {
     if (!user) {
       res.sendStatus(400);
     } else {
-      await Cart.update({ UserId: user.id }, { where: { sessionId: req.session_id } });
+      const session = await Session.findOne({ where: { id: req.session_id } });
+      await Session.update({ UserId: user.id }, { where: { id: session.id } });
+      const activeCart = await Cart.findOne({
+        where: {
+          UserId: user.id,
+          isActive: true,
+        },
+      });
+      const currentCart = await Cart.findOne({
+        where: {
+          sessionId: req.session_id,
+        },
+      });
+      if (activeCart) {
+        await Order.update({ CartId: currentCart.id }, { where: { CartId: activeCart.id } });
+      }
+      await Cart.update({ UserId: user.id }, { where: { id: currentCart.id } });
+      if (activeCart) {
+        await Cart.destroy({ where: { id: activeCart.id } });
+      }
       await res.status(200).send(user);
     }
   }
