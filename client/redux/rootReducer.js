@@ -1,7 +1,12 @@
-import {movieReducer} from '../redux/movies/reducer';
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
+import movieReducer from './movies/reducer';
+import userReducer from './users/reducer';
+import cartReducer from './cart/reducer';
 
-export const rootReducer =  combineReducers({
-        movieReducer
-})
+const rootReducer = combineReducers({
+  movieReducer,
+  userReducer,
+  cartReducer,
+});
 
+export default rootReducer;
