@@ -22,11 +22,7 @@ class Search extends Component {
     await getMovies();
   }
 
-  handleSearchTermChange(ev) {
-    this.setState({ [ev.target.name]: ev.target.value });
-  }
-
-  handleSearchCriteriaChange(ev) {
+  handleSearchChange(ev) {
     this.setState({ [ev.target.name]: ev.target.value });
   }
 
@@ -57,7 +53,7 @@ class Search extends Component {
               placeholder="Enter Your Search Term Here"
               value={searchTerm}
               name="searchTerm"
-              onChange={(ev) => this.handleSearchTermChange(ev)}
+              onChange={(ev) => this.handleSearchChange(ev)}
             />
           </div>
           <div className="field">
@@ -67,7 +63,7 @@ class Search extends Component {
               value={searchCriteria}
               id="searchCriteria"
               name="searchCriteria"
-              onChange={(ev) => this.handleSearchCriteriaChange(ev)}
+              onChange={(ev) => this.handleSearchChange(ev)}
             >
               <option value="actors" key="actors">
                 Actor
