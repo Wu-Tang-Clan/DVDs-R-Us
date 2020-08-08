@@ -12,7 +12,7 @@ const About = () => {
     },
   };
   return (
-    <div>
+    <div style={{ marginTop: '3.25rem' }}>
       <h2 className="title is-2" style={{ textAlign: 'center' }}>THIS IS DVD!</h2>
       <div className="box" style={{ display: 'flex', justifyContent: 'space-around' }}>
         <YouTube videoId={YOUTUBE_ID} opts={opts} />

@@ -1,4 +1,5 @@
 /* eslint-disable no-alert */
+import Alert from 'react-s-alert';
 import USER_TYPES from './types';
 import CART_TYPES from '../cart/types';
 
@@ -15,9 +16,17 @@ export const login = (username, password, history) => (dispatch) => {
           user: res.data,
         });
         history.goBack();
+        Alert.success(`Welcome ${res.data.username}!`, {
+          effect: 'slide',
+          timeout: 1000,
+        });
       } else {
         // eslint-disable-next-line no-alert
-        alert('Your username or password was wrong :(');
+        Alert.error('Your username or password was wrong :(', {
+          effect: 'slide',
+          timeout: 1500,
+        });
+        // alert('Your username or password was wrong :(');
       }
     })
     .catch((e) => {

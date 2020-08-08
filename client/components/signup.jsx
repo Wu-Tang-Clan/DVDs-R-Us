@@ -29,27 +29,33 @@ class Signup extends Component {
     const { onSubmit } = this;
     const { userCreated, userExists, firstTimeSignup } = this.props;
     return (
-      <div className="box">
+      <div style={{ marginTop: '3.75rem' }} className="box">
         <div className="columns">
           <div className="column" />
           <form className="column" onSubmit={onSubmit}>
-            <label htmlFor="username">Username:</label>
-            <input
-              className="input"
-              id="username"
-              value={username}
-              onChange={(e) => this.setState({ username: e.target.value })}
-              type="text"
-            />
-            <label htmlFor="password">Password:</label>
-            <input
-              className="input"
-              id="password"
-              value={password}
-              onChange={(e) => this.setState({ password: e.target.value })}
-              type="password"
-            />
-            <button className="button is-link" type="submit">Signup</button>
+            <label className="label" htmlFor="username">
+              Username:
+              <input
+                className="input"
+                id="username"
+                value={username}
+                onChange={(e) => this.setState({ username: e.target.value })}
+                type="text"
+              />
+            </label>
+
+            <label className="label" htmlFor="password">
+              Password:
+              <input
+                className="input"
+                id="password"
+                value={password}
+                onChange={(e) => this.setState({ password: e.target.value })}
+                type="password"
+              />
+            </label>
+
+            <button className="button brandButton" type="submit">Signup</button>
           </form>
           <div className="column" />
         </div>

@@ -38,11 +38,11 @@ class Login extends Component {
     const { username, password } = this.state;
     const { onSubmit } = this;
     return (
-      <div className="box">
+      <div style={{ marginTop: '3.75rem' }} className="box">
         <div className="columns">
           <div className="column is-one-third" />
           <form className="column is-one-third" onSubmit={onSubmit}>
-            <label>
+            <label className="label">
               Username:
               <input
                 className="input"
@@ -51,7 +51,7 @@ class Login extends Component {
                 type="text"
               />
             </label>
-            <label>
+            <label className="label">
               Password:
               <input
                 className="input"
@@ -60,7 +60,7 @@ class Login extends Component {
                 type="password"
               />
             </label>
-            <button className="button is-link" type="submit">Login</button>
+            <button className="button brandButton" type="submit">Login</button>
           </form>
           <div className="column is-one-third" />
         </div>

@@ -24,7 +24,7 @@ userRouter.post('/login', async (req, res) => {
   } else {
     bcrypt.compare(password, user.password, async (err, result) => {
       if (err) {
-        throw err;
+        res.send(err);
       } else if (result === true) {
         const session = await Session.findOne({ where: { id: req.session_id } });
         await Session.update({ UserId: user.id }, { where: { id: session.id } });
@@ -48,7 +48,7 @@ userRouter.post('/login', async (req, res) => {
         }
         await res.status(200).send(user);
       } else {
-        res.sendStatus(401);
+        res.sendStatus(400);
       }
     });
   }

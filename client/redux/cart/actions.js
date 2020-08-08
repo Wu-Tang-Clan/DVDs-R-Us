@@ -1,18 +1,24 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-console */
+import Alert from 'react-s-alert';
 import CART_TYPES from './types';
 import store from '../store';
 
 const axios = require('axios');
 
-export const addToCart = (movieId, quantity) => async (dispatch) => {
+export const addToCart = (movieId, quantity, title) => async (dispatch) => {
   await axios.post('/api/cart/addtocart', { movieId, quantity })
     .then((res) => {
+      console.log(res.data);
       dispatch({
         type: CART_TYPES.ADD_TO_CART,
         order: res.data,
         price: (res.data.quantity * 0.99).toFixed(2),
+      });
+      Alert.success(`${title} added to cart!`, {
+        effect: 'slide',
+        timeout: 1500,
       });
       console.log('UPDATED STORE', store.getState().cartReducer);
     });
@@ -37,7 +43,7 @@ export const getCartItems = () => async (dispatch) => {
     });
 };
 
-export const removeFromCart = (movieId, cartId) => async (dispatch) => {
+export const removeFromCart = (movieId, cartId, title) => async (dispatch) => {
   await axios.delete(`/api/cart/removefromcart/${movieId}/${cartId}`);
   await axios.get('/api/cart')
     .then((res) => {
@@ -47,11 +53,19 @@ export const removeFromCart = (movieId, cartId) => async (dispatch) => {
           orders: res.data,
           total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
         });
+        Alert.error(`${title} removed from cart`, {
+          effect: 'slide',
+          timeout: 1500,
+        });
       } else {
         dispatch({
           type: CART_TYPES.REMOVE_FROM_CART,
           orders: res.data,
           total: Number(0),
+        });
+        Alert.error(`${title} removed from cart`, {
+          effect: 'slide',
+          timeout: 1500,
         });
       }
     });

@@ -18,12 +18,12 @@ class SingleMovieBox extends Component {
     const { quantity } = this.state;
     // console.log(movie);
     return (
-      <div key={movie.id} className="box" style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div key={movie.id} className="box">
         <div className="columns is-vcentered">
-          <div className="column is-3">
+          <div className="column is-one-fifth">
             <img src={movie.poster} alt={movie.name} width="80" height="100" />
           </div>
-          <div className="column is-6">
+          <div className="column is-three-fifths" style={{ width: '480px' }}>
             <div className="field">
               <div className="control">
                 <Link
@@ -56,11 +56,12 @@ class SingleMovieBox extends Component {
             </div>
 
           </div>
-          <div className="column is-3">
+          <div className="column is-one-fifth">
             <div className="field">
               <div className="control">
                 <div className="select">
                   <input
+                    style={{ margin: '10px' }}
                     type="number"
                     min="1"
                     max="20"
@@ -79,12 +80,12 @@ class SingleMovieBox extends Component {
             <button
               type="submit"
               style={{ margin: '10px' }}
-              className="button is-link"
-              onClick={() => addToCart(movie.id, quantity)}
+              className="button brandButton"
+              onClick={() => addToCart(movie.id, quantity, movie.title)}
             >
               Add To Cart
             </button>
-            <button type="submit" style={{ margin: '10px' }} className="button is-link">Add to Wishlist</button>
+            <button type="submit" style={{ margin: '10px' }} className="button brandButton">Add to Wishlist</button>
 
           </div>
         </div>
