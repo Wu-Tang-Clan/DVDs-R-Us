@@ -33,20 +33,19 @@ class Admin extends Component {
     });
   }
 
-  handleOrder = async (e) => {
+  handleOrder = async (e, title) => {
     // eslint-disable-next-line no-shadow
     const { orderStock } = this.props;
-    await orderStock(e.target.value);
+    await orderStock(e.target.value, title);
     // eslint-disable-next-line no-alert
-    alert('Movie is now added to inventory!');
+    // alert('Movie is now added to inventory!');
   }
 
-  handleRemoveMovie = async (e) => {
+  handleRemoveMovie = async (e, title) => {
     // eslint-disable-next-line no-shadow
     const { removeMovie } = this.props;
-    await removeMovie(e.target.value);
+    await removeMovie(e.target.value, title);
     // eslint-disable-next-line no-alert
-    alert('Movie is now removed from inventory!');
   };
 
   render() {
@@ -83,7 +82,7 @@ class Admin extends Component {
                         </p>
                       </div>
                       <div className="column is-one-quarter">
-                        <button type="button" value={movie.id} onClick={handleRemoveMovie} className="button is-link">Remove Movie</button>
+                        <button type="button" value={movie.id} onClick={(e) => handleRemoveMovie(e, movie.title)} className="button is-link">Remove Movie</button>
                       </div>
                     </div>
                   </div>
@@ -138,7 +137,7 @@ class Admin extends Component {
                           </p>
                         </div>
                         <div className="column is-one-quarter">
-                          <button onClick={handleOrder} className="button is-link" type="button" value={movie.imdbid}>Order Stock</button>
+                          <button onClick={(e) => handleOrder(e, movie.title)} className="button is-link" type="button" value={movie.imdbid}>Order Stock</button>
                         </div>
                       </div>
                     </div>

@@ -5,6 +5,7 @@ import React, {
 import {
   HashRouter, Route, Switch, Redirect,
 } from 'react-router-dom';
+import Alert from 'react-s-alert';
 import Nav from './components/nav';
 import About from './components/about';
 import Search from './components/search';
@@ -45,6 +46,7 @@ const App = () => (
         </Switch>
       </div>
     </HashRouter>
+    <Alert stack={{ limit: 3 }} />
   </div>
 );
 

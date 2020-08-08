@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/state-in-constructor */
@@ -35,7 +36,7 @@ class Nav extends Component {
             color: '#ffcc00',
             width: '100%',
           }}
-          className="navbar"
+          className="navbar is-fixed-top"
           role="navigation"
           aria-label="main navigation"
         >
@@ -71,20 +72,21 @@ class Nav extends Component {
 
           <div id="bloccbusterNavBar" className="navbar-menu">
             <div className="navbar-start">
-              {/* <Link to="/about" className="navigationLink">
+              <Link to="/about" className="navbar-item">
                 About
-              </Link> */}
-              <a className="navbar-item" href="#/about">About</a>
+              </Link>
+              {/* <a className="navbar-item" href="#/about">About</a> */}
               <Link to="/search" className="navbar-item">
+                <i style={{ marginRight: '5px' }} className="fa fa-search" />
                 Search
               </Link>
               <Link to="/browse" className="navbar-item">
+                <i style={{ marginRight: '5px' }} className="fa fa-sort" />
                 Browse
               </Link>
-              <Link to="/yourOrders" className="navbar-item">
-                Your Orders
-              </Link>
               <Link to="/cart" className="navbar-item">
+                <i style={{ marginRight: '5px' }} className="fa fa-shopping-cart" />
+                {' '}
                 Cart
               </Link>
               {loggedInUser.isAdmin ? (
@@ -97,6 +99,7 @@ class Nav extends Component {
                   className="navbar-item"
                   to={`/myaccount/${loggedInUser.id}`}
                 >
+                  <i style={{ marginRight: '5px' }} className="fa fa-address-card" />
                   My Account
                 </Link>
               ) : null}
@@ -112,7 +115,7 @@ class Nav extends Component {
                       justifyContent: 'flex-end',
                     }}
                   >
-                    <p className="is-size-6" style={{ marginBottom: '5px' }}>
+                    <p className="is-size-6" style={{ marginBottom: '5px', marginRight: '5px' }}>
                       {loggedIn
                         ? `Hello ${loggedInUser.username}!`
                         : 'Hello Guest! Please login or signup!'}
@@ -130,7 +133,7 @@ class Nav extends Component {
                     <Link
                       className="button brandButton"
                       to="/login"
-                      style={{ margin: '5px 10px' }}
+                      style={{ margin: '5px 10px', marginBottom: '4px' }}
                     >
                       <strong>Login</strong>
                     </Link>
@@ -140,7 +143,7 @@ class Nav extends Component {
                     <Link
                       className="button brandButton"
                       to="/signup"
-                      style={{ margin: '5px 10px' }}
+                      style={{ margin: '5px 10px', marginBottom: '4px' }}
                     >
                       <strong>Sign up</strong>
                     </Link>
@@ -166,6 +169,7 @@ Nav.propTypes = {
 const mapStateToProps = (state) => ({
   loggedIn: state.userReducer.loggedIn,
   loggedInUser: state.userReducer.loggedInUser,
+  orders: state.cartReducer.orders,
 });
 
 const mapDispatchToProps = { loginCheck, logOut };

@@ -42,20 +42,20 @@ class Browse extends Component {
     } = this.state;
     moviesToDisplay = movieFilter(moviesToDisplay, filter, sort);
     return (
-      <div>
+      <div style={{ marginTop: '3.25rem' }}>
         {
           (moviesToDisplay.length)
             ? (
               <div>
                 <div>
-                  <select className="select" onChange={(e) => this.setState({ sort: e.target.value })}>
+                  <select style={{ margin: '10px' }} className="select brandButton" onChange={(e) => this.setState({ sort: e.target.value })}>
                     {
                       sortMethods.map((method) => (
                         <option key={method} value={method}>{ method }</option>
                       ))
                     }
                   </select>
-                  <select className="select" onChange={(e) => this.setState({ filter: e.target.value })}>
+                  <select style={{ margin: '10px' }} className="select brandButton" onChange={(e) => this.setState({ filter: e.target.value })}>
                     <option value="All">All</option>
                     {
                       genres.map((genre) => <option key={genre} value={genre}>{ genre }</option>)

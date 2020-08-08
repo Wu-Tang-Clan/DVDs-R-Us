@@ -46,7 +46,7 @@ class Search extends Component {
     const { searchTerm, searchCriteria, searchedMovies } = this.state;
     const { props } = this.props;
     return (
-      <div>
+      <div style={{ marginTop: '3.25rem' }}>
         <form>
           <div className="field">
             <label className="label" htmlFor="searchTerm"> Search Term:</label>
@@ -63,7 +63,7 @@ class Search extends Component {
           <div className="field">
             <label className="label" htmlFor="searchCriteria">Search Criteria:</label>
             <select
-              className="select"
+              className="select brandButton"
               value={searchCriteria}
               id="searchCriteria"
               name="searchCriteria"
@@ -113,7 +113,7 @@ class Search extends Component {
               </option>
             </select>
           </div>
-          <button className="button is-link" type="button" onClick={(ev) => this.handleSearch(ev)}>
+          <button className="button brandButton" type="button" onClick={(ev) => this.handleSearch(ev)}>
             Search
           </button>
         </form>
