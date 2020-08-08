@@ -1,6 +1,5 @@
 //  Different from index.js file - we can use the Provider, BrowserRouter, Nav, Switch here
 import React, {
-// Component,
 } from 'react';
 import {
   HashRouter, Route, Switch, Redirect,
@@ -19,11 +18,7 @@ import Signup from './components/signup';
 import UserAccount from './components/userAccount';
 import Cart from './components/cart';
 
-// export default class App extends Component {
 const App = () => (
-  // {
-  // render() {
-  // return (
   <div>
     <HashRouter>
       <div>
