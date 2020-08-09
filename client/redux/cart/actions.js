@@ -14,7 +14,7 @@ export const addToCart = (movieId, quantity, title) => async (dispatch) => {
       dispatch({
         type: CART_TYPES.ADD_TO_CART,
         order: res.data,
-        price: (res.data.quantity * 0.99).toFixed(2),
+        price: Number((res.data.quantity * 0.99).toFixed(2)),
       });
       Alert.success(`${title} added to cart!`, {
         effect: 'slide',

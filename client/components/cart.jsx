@@ -2,20 +2,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import Alert from 'react-s-alert';
+import StripeCheckout from 'react-stripe-checkout';
+import axios from 'axios';
 import { getCartItems, removeFromCart, editCartQuantity } from '../redux/cart/actions';
 import { orderParser } from '../utilities';
 import { getMovies } from '../redux/movies/actions';
+import store from '../redux/store';
+
+const PUBLISHING_KEY = 'pk_test_51HC5PPIpeeFTP4XBYprFZCBhZtuaovgYyM6HCY5dOyE3vcBClKdyIEgX6SBockJfgs8tOzndrOW5u3PWJOGCiPzb00wcaRWANw';
 
 class Cart extends Component {
-  // state = {
-  //   quantity,
-  // }
-
   async componentDidMount() {
     const { getCartItems, getMovies } = this.props;
 
     await getMovies();
     await getCartItems();
+  }
+
+  handleToken = async (token) => {
+    // eslint-disable-next-line prefer-destructuring
+    const total = store.getState().cartReducer.total;
+    const response = await axios.post('/api/cart/checkout', {
+      token,
+      total,
+    });
+    if (response.data === 'OK') {
+      Alert.success('WHAM! Check your AOL acct for your itemized receipt.', {
+        effect: 'slide',
+        timeout: 3000,
+      });
+    } else {
+      Alert.error('WOMP WOMP! Dude where\'s your car?! Better luck next time :)', {
+        effect: 'slide',
+        timeout: 3000,
+      });
+    }
   }
 
   async handleRemoveFromCart(movieId, cartId, title) {
@@ -31,15 +53,17 @@ class Cart extends Component {
 
   render() {
     const { orders, total, movies } = this.props;
-    console.log('movies ', movies);
-    console.log('CURRENT ORDERS', orders);
-    console.log('total-- ', total);
+    const { handleToken } = this;
+    // console.log('props', this.props);
+    // console.log('movies ', movies);
+    // console.log('CURRENT ORDERS', orders);
+    // console.log('total-- ', total);
     const parsedOrders = orderParser(orders);
-    console.log('PARSED ORDERS', parsedOrders);
+    // console.log('PARSED ORDERS', parsedOrders);
 
     const orderList = parsedOrders.map((order) => {
       const movie = movies.filter((movie) => movie.id === order.movieId);
-      console.log('single movie ', movie);
+      // console.log('single movie ', movie);
       return (
         <div className="container" key={order.id}>
           <div className="card">
@@ -111,13 +135,13 @@ class Cart extends Component {
         <h1 className="is-size-2">My Shopping Cart</h1>
         <br />
         <div>{orderList}</div>
-        <button
-          type="submit"
-          style={{ margin: '10px' }}
-          className="button is-link"
-        >
-          Checkout
-        </button>
+        <StripeCheckout
+          stripeKey={PUBLISHING_KEY}
+          amount={Number(total * 100)}
+          shippingAddress
+          billingAddress
+          token={handleToken}
+        />
       </div>
     );
   }

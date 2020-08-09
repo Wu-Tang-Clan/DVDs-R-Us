@@ -1,5 +1,8 @@
+require('dotenv').config();
 const cartRouter = require('express').Router();
-const { Cart, Order } = require('../../db/Models/index');
+const { v4: uuidv4 } = require('uuid');
+const stripe = require('stripe')(process.env.STRIPE_SK);
+const { Cart, Order, Movie } = require('../../db/Models/index');
 
 cartRouter.post('/addtocart', async (req, res) => {
   const { movieId, quantity } = req.body;
@@ -8,11 +11,18 @@ cartRouter.post('/addtocart', async (req, res) => {
       sessionId: req.session_id,
     },
   });
+  const movie = await Movie.findOne({
+    where: {
+      id: movieId,
+    },
+  });
   const createdOrder = await Order.create(
     {
       movieId,
       quantity,
       CartId: cart.id,
+      name: movie.title,
+      images: [movie.poster],
     },
   );
   res.send(createdOrder);
@@ -59,6 +69,46 @@ cartRouter.put('/editcartquantity/:movieid/:cartid', async (req, res) => {
     },
   });
   res.sendStatus(200);
+});
+
+cartRouter.post('/checkout', async (req, res) => {
+  console.log(req.body);
+  try {
+    const { token, total } = req.body;
+    const customer = await stripe.customers.create({
+      email: token.email,
+      source: token.id,
+    });
+    const idempotencyKey = uuidv4();
+    const charge = await stripe.charges.create(
+      {
+        amount: total * 100,
+        currency: 'usd',
+        customer: customer.id,
+      },
+      //   receipt_email: token.email,
+      //   description: 'ur fave bloccbuster dvds yummmm',
+      //   shipping: {
+      //     name: token.card.name,
+      //     address: {
+      //       line1: token.card.address_line1,
+      //       line2: token.card.address_line2,
+      //       city: token.card.address_city,
+      //       country: token.card.address_country,
+      //       postal_code: token.card.address_zip,
+      //     },
+      //   },
+      // },
+      {
+        idempotencyKey,
+      },
+    );
+    console.log('Charge: ', { charge });
+    res.sendStatus(200);
+  } catch (e) {
+    console.error('Error: ', e);
+    res.sendStatus(400);
+  }
 });
 
 module.exports = cartRouter;
