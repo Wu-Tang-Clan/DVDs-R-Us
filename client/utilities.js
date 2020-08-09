@@ -13,64 +13,12 @@ export const generateGenres = (movies) => {
   return genreArray;
 };
 
-export const movieFilter = (movies, filter, sort, searchTerm) => {
+export const movieFilter = (movies, filter, sort) => {
   // let filteredMovies = movies;
   let filteredMovies = movies;
   switch (filter) {
     case 'All':
       filteredMovies = filteredMovies; // eslint-disable-line no-self-assign
-      break;
-    case 'title':
-      filteredMovies = movies.filter((movie) => movie.title.toLowerCase()
-        .includes(searchTerm.toLowerCase()));
-      break;
-    case 'year':
-      filteredMovies = movies.filter((movie) => movie.year.toString().includes(searchTerm));
-      break;
-    case 'director':
-      filteredMovies = movies.filter((movie) => movie.director
-        .toString()
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()));
-      break;
-    case 'actors':
-      filteredMovies = movies.filter((movie) => movie.actors.toString().toLowerCase()
-        .includes(searchTerm.toLowerCase()));
-      break;
-    case 'awards':
-      filteredMovies = movies.filter((movie) => movie.awards.toLowerCase()
-        .includes(searchTerm.toLowerCase()));
-      break;
-    case 'boxoffice':
-      filteredMovies = movies.filter((movie) => movie.boxoffice.toString().includes(searchTerm));
-      break;
-    case 'metascore':
-      filteredMovies = movies.filter((movie) => movie.metascore.toString().includes(searchTerm));
-      break;
-    case 'plot':
-      filteredMovies = movies.filter((movie) => movie.plot.toLowerCase()
-        .includes(searchTerm.toLowerCase()));
-      break;
-    case 'rating':
-      filteredMovies = movies.filter((movie) => movie.rating.toString().includes(searchTerm));
-      break;
-    case 'production':
-      filteredMovies = movies.filter((movie) => movie.production.toLowerCase()
-        .includes(searchTerm.toLowerCase()));
-      break;
-    case 'runtime':
-      filteredMovies = movies.filter((movie) => movie.runtime.toString().includes(searchTerm));
-      break;
-    case 'writer':
-      filteredMovies = movies.filter((movie) => movie.writer.toString().toLowerCase()
-        .includes(searchTerm.toLowerCase()));
-      break;
-    case 'released':
-      filteredMovies = movies.filter((movie) => movie.released.toString().includes(searchTerm));
-      break;
-    case 'genres':
-      filteredMovies = movies.filter((movie) => movie.genres.toString().toLowerCase()
-        .includes(searchTerm.toLowerCase()));
       break;
     default:
       filteredMovies = filteredMovies.filter((movie) => movie.genres.includes(filter));
@@ -100,6 +48,82 @@ export const movieFilter = (movies, filter, sort, searchTerm) => {
       filteredMovies = filteredMovies; // eslint-disable-line no-self-assign
   }
   return filteredMovies;
+};
+
+// eslint-disable-next-line consistent-return
+export const searchMovieFilter = (movies, filter, sort, searchTerm) => {
+  // let filteredMovies = movies;
+  let filteredMovies = movies;
+  if (searchTerm.length > 0) {
+    switch (filter) {
+      case 'All':
+        filteredMovies = filteredMovies; // eslint-disable-line no-self-assign
+        break;
+      case 'title':
+        filteredMovies = movies.filter((movie) => movie.title.toLowerCase()
+          .includes(searchTerm.toLowerCase()));
+        break;
+      case 'year':
+        filteredMovies = movies.filter((movie) => movie.year.toString().includes(searchTerm));
+        break;
+      case 'director':
+        filteredMovies = movies.filter((movie) => movie.director
+          .toString()
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()));
+        break;
+      case 'actors':
+        filteredMovies = movies.filter((movie) => movie.actors.toString().toLowerCase()
+          .includes(searchTerm.toLowerCase()));
+        break;
+      case 'awards':
+        filteredMovies = movies.filter((movie) => movie.awards.toLowerCase()
+          .includes(searchTerm.toLowerCase()));
+        break;
+      case 'boxoffice':
+        filteredMovies = movies.filter((movie) => movie.boxoffice.toString().includes(searchTerm));
+        break;
+      case 'metascore':
+        filteredMovies = movies.filter((movie) => movie.metascore.toString().includes(searchTerm));
+        break;
+      case 'plot':
+        filteredMovies = movies.filter((movie) => movie.plot.toLowerCase()
+          .includes(searchTerm.toLowerCase()));
+        break;
+      case 'rating':
+        filteredMovies = movies.filter((movie) => movie.rating.toString().includes(searchTerm));
+        break;
+      case 'production':
+        filteredMovies = movies.filter((movie) => movie.production.toLowerCase()
+          .includes(searchTerm.toLowerCase()));
+        break;
+      case 'runtime':
+        filteredMovies = movies.filter((movie) => movie.runtime.toString().includes(searchTerm));
+        break;
+      case 'writer':
+        filteredMovies = movies.filter((movie) => movie.writer.toString().toLowerCase()
+          .includes(searchTerm.toLowerCase()));
+        break;
+      case 'released':
+        filteredMovies = movies.filter((movie) => movie.released.toString().includes(searchTerm));
+        break;
+      case 'genres':
+        filteredMovies = movies.filter((movie) => movie.genres.toString().toLowerCase()
+          .includes(searchTerm.toLowerCase()));
+        break;
+      default:
+        filteredMovies = filteredMovies.filter((movie) => movie.genres.includes(filter));
+    }
+    switch (sort) {
+      case 'A-Z':
+        filteredMovies = filteredMovies.sort((a, b) => (a.title.toLowerCase()
+                                     > b.title.toLowerCase() ? 1 : -1));
+        break;
+      default:
+        filteredMovies = filteredMovies; // eslint-disable-line no-self-assign
+    }
+    return filteredMovies;
+  }
 };
 
 export const adminInventoryFilter = (movies, search) => {
