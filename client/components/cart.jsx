@@ -66,7 +66,7 @@ class Cart extends Component {
       // console.log('single movie ', movie);
       return (
         <div className="container" key={order.id}>
-          <div className="card">
+          <div className="card has-background-link-dark">
             <div className="card-image" />
             <div className="card-content">
               <div className="media">
@@ -117,7 +117,7 @@ class Cart extends Component {
                           order.CartId,
                           movie[0].title,
                         )
-                        }
+                      }
                     >
                       Remove
                     </button>
@@ -135,6 +135,9 @@ class Cart extends Component {
         <h1 className="is-size-2">My Shopping Cart</h1>
         <br />
         <div>{orderList}</div>
+        <div className="card has-background-link">
+          <p className="subtitle is-4">{`Your Total is ${total}`}</p>
+        </div>
         <StripeCheckout
           stripeKey={PUBLISHING_KEY}
           amount={Number(total * 100)}

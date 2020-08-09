@@ -81,7 +81,7 @@ export const editCartQuantity = (movieId, cartId, quantity) => async (dispatch) 
         dispatch({
           type: CART_TYPES.EDIT_CART_QUANTITY,
           orders: res.data,
-          total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
+          total: res.data.map((order) => Float(order.quantity)).reduce((a, b) => a + (b * 0.99)),
         });
       } else {
         dispatch({
