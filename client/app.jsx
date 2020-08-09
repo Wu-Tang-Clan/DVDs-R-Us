@@ -5,18 +5,10 @@ import {
   HashRouter, Route, Switch, Redirect,
 } from 'react-router-dom';
 import Alert from 'react-s-alert';
-import Nav from './components/nav';
-import About from './components/about';
-import Search from './components/search';
-import Browse from './components/browse';
-import MoviePage from './components/moviePage';
+import {
+  Nav, About, Search, Browse, MoviePage, Login, Admin, LogOut, Signup, UserAccount, Cart,
+} from './components/index';
 // eslint-disable-next-line import/no-named-as-default-member
-import Login from './components/login';
-import Admin from './components/admin';
-import LogOut from './components/logoutPage';
-import Signup from './components/signup';
-import UserAccount from './components/userAccount';
-import Cart from './components/cart';
 
 const App = () => (
   <div>
