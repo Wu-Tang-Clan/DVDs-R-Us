@@ -69,6 +69,11 @@ const userReducer = (state = initialState, action) => {
         ...state,
         currentMovieReviews: [action.review, ...state.currentMovieReviews],
       };
+    case USER_TYPES.SET_ADMIN:
+      return {
+        ...state,
+        users: action.users,
+      };
     default:
       return state;
   }
