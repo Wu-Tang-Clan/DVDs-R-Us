@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 const {
-  UUID, UUIDV4, INTEGER, STRING,
+  UUID, UUIDV4, INTEGER, STRING, TEXT, ARRAY,
 } = Sequelize;
 const { db } = require('../db');
 
@@ -24,6 +24,14 @@ const Order = db.define('order', {
   },
   CartId: {
     type: STRING,
+    unique: false,
+  },
+  name: {
+    type: STRING,
+    unique: false,
+  },
+  images: {
+    type: ARRAY(TEXT),
     unique: false,
   },
 });

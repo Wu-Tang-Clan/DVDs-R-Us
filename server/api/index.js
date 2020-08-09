@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const chalk = require('chalk');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const app = require('./server');
 const { db } = require('../db/db');
 const { User, Session, Cart } = require('../db/Models/index');
@@ -52,6 +53,7 @@ app.use(async (req, res, next) => {
 });
 
 app.use(express.json());
+app.use(cors());
 app.use(express.static(PUBLIC_PATH));
 app.use(express.static(DIST_PATH));
 app.use('/api', require('./routers/index'));

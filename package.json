@@ -24,10 +24,13 @@
   },
   "homepage": "https://github.com/nickcarr51/DVDs-R-Us#readme",
   "dependencies": {
+    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.8.0",
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
     "chalk": "^4.1.0",
     "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
     "css-loader": "^4.2.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -42,11 +45,15 @@
     "react-router-dom": "^5.2.0",
     "react-s-alert": "^1.4.1",
     "react-spinjs": "^3.0.0",
+    "react-stripe-checkout": "^2.6.3",
+    "react-stripe-elements": "^6.1.2",
     "react-toastify": "^6.0.8",
     "react-youtube": "^7.11.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "sequelize": "^6.3.3"
+    "sequelize": "^6.3.3",
+    "stripe": "^8.84.0",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
