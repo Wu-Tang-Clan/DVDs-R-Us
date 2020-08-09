@@ -5,7 +5,7 @@ import propTypes from 'prop-types';
 import {
   getMovies, searchImdb, orderStock, removeMovie,
 } from '../redux/movies/actions';
-import { getUsers } from '../redux/users/actions';
+import { getUsers, toggleAdmin } from '../redux/users/actions';
 import { adminInventoryFilter } from '../utilities';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -48,10 +48,18 @@ class Admin extends Component {
     // eslint-disable-next-line no-alert
   };
 
+  toggleAdminRole = async (userId, userName, isAdmin) => {
+    // eslint-disable-next-line no-shadow
+    const { toggleAdmin } = this.props;
+    await toggleAdmin(userId, userName, isAdmin);
+  };
+
   render() {
     const { searchInput, stockSearch } = this.state;
     // console.log(stockSearch);
-    const { handleSubmit, handleOrder, handleRemoveMovie } = this;
+    const {
+      handleSubmit, handleOrder, handleRemoveMovie, toggleAdminRole,
+    } = this;
     const { users, imdbSearchResults } = this.props;
     let { movies } = this.props;
     movies = adminInventoryFilter(movies, stockSearch);
@@ -151,7 +159,33 @@ class Admin extends Component {
             <div className="adminBox">
               {
               users
-                ? users.map((user) => <p key={user.id}>{ user.username }</p>)
+                ? users
+                  .filter((user) => user.username !== 'admin')
+                  .map((user) => (
+                    <div key={user.id} className="label">
+                      {user.username}
+                      {user.isAdmin ? (
+                        <button
+                          type="submit"
+                          className="button brandButton"
+                          style={{ margin: '5px 10px', marginBottom: '4px' }}
+                          onClick={() => toggleAdminRole(user.id, user.username, !user.isAdmin)}
+                        >
+                          <strong>Remove As Admin</strong>
+                        </button>
+                      ) : null}
+                      {!user.isAdmin ? (
+                        <button
+                          type="submit"
+                          className="button brandButton"
+                          style={{ margin: '5px 10px', marginBottom: '4px' }}
+                          onClick={() => toggleAdminRole(user.id, user.username, !user.isAdmin)}
+                        >
+                          <strong>Set As Admin</strong>
+                        </button>
+                      ) : null}
+                    </div>
+                  ))
                 : null
               }
             </div>
@@ -167,6 +201,7 @@ Admin.propTypes = {
   orderStock: propTypes.func.isRequired,
   searchImdb: propTypes.func.isRequired,
   removeMovie: propTypes.func.isRequired,
+  toggleAdmin: propTypes.func.isRequired,
   imdbSearchResults: propTypes.arrayOf(propTypes.object).isRequired,
   getUsers: propTypes.func.isRequired,
   movies: propTypes.arrayOf(propTypes.object).isRequired,
@@ -180,7 +215,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  getMovies, getUsers, searchImdb, orderStock, removeMovie,
+  getMovies, getUsers, searchImdb, orderStock, removeMovie, toggleAdmin,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Admin);

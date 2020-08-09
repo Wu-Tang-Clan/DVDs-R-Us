@@ -109,3 +109,25 @@ export const getReviews = (id) => (dispatch) => {
       });
     });
 };
+
+export const toggleAdmin = (userId, userName, isAdmin) => (dispatch) => {
+  axios.put(`/api/users/setadmin/${userId}`, { isAdmin });
+  axios.get('api/users/')
+    .then((res) => {
+      dispatch({
+        type: USER_TYPES.SET_ADMIN,
+        users: res.data,
+      });
+      if (isAdmin === true) {
+        Alert.success(`${userName} is set as Admin`, {
+          effect: 'slide',
+          timeout: 1500,
+        });
+      } else {
+        Alert.success(`${userName} is removed as Admin`, {
+          effect: 'slide',
+          timeout: 1500,
+        });
+      }
+    });
+};

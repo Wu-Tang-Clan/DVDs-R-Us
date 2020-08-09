@@ -142,4 +142,10 @@ userRouter.get('/reviews/:id', async (req, res) => {
   res.send(reviews);
 });
 
+userRouter.put('/setadmin/:userid/', async (req, res) => {
+  await User.update({ isAdmin: req.body.isAdmin },
+    { where: { id: req.params.userid } });
+  res.sendStatus(200);
+});
+
 module.exports = userRouter;
