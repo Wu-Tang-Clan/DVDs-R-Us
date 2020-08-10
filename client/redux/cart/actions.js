@@ -64,7 +64,7 @@ export const getActiveCartItems = () => async (dispatch) => {
 
 export const removeFromCart = (movieId, cartId, title) => async (dispatch) => {
   await axios.delete(`/api/cart/removefromcart/${movieId}/${cartId}`);
-  await axios.get('/api/cart')
+  await axios.get('/api/cart/active')
     .then((res) => {
       if (res.data.length) {
         dispatch({

@@ -11,6 +11,7 @@ cartRouter.post('/addtocart', async (req, res) => {
   const cart = await Cart.findOne({
     where: {
       sessionId: req.session_id,
+      isActive: true,
     },
   });
   const movie = await Movie.findOne({
@@ -92,7 +93,7 @@ cartRouter.put('/checkoutCart', async (req, res) => {
   // console.log("allOrders-- ",allOrders.length);
   if (req.user) {
     const currentCart = await Cart.findOne({ where: { UserId: req.user.id, isActive: true } });
-    currentCart.update({ isActive: false });
+    await currentCart.update({ isActive: false });
     const newCart = await Cart.create(
       {
         sessionId: req.session_id,
