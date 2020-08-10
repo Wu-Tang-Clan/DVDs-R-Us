@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable max-len */
 require('dotenv').config();
 const cartRouter = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
@@ -9,6 +11,7 @@ cartRouter.post('/addtocart', async (req, res) => {
   const cart = await Cart.findOne({
     where: {
       sessionId: req.session_id,
+      isActive: true,
     },
   });
   const movie = await Movie.findOne({
@@ -35,6 +38,18 @@ cartRouter.get('/', async (req, res) => {
     res.send(currentOrders);
   } else {
     const currentCart = await Cart.findOne({ where: { sessionId: req.session_id } });
+    const currentOrders = await Order.findAll({ where: { CartId: currentCart.id } });
+    res.send(currentOrders);
+  }
+});
+
+cartRouter.get('/active', async (req, res) => {
+  if (req.user) {
+    const currentCart = await Cart.findOne({ where: { UserId: req.user.id, isActive: true } });
+    const currentOrders = await Order.findAll({ where: { CartId: currentCart.id } });
+    res.send(currentOrders);
+  } else {
+    const currentCart = await Cart.findOne({ where: { sessionId: req.session_id, isActive: true } });
     const currentOrders = await Order.findAll({ where: { CartId: currentCart.id } });
     res.send(currentOrders);
   }
@@ -71,8 +86,37 @@ cartRouter.put('/editcartquantity/:movieid/:cartid', async (req, res) => {
   res.sendStatus(200);
 });
 
+cartRouter.put('/checkoutCart', async (req, res) => {
+  // const allOrders =    await Order.findAll({ where: { movieId: req.params.movieid,
+  // CartId: req.params.cartid } });
+  // console.log("allOrders-- ",allOrders);
+  // console.log("allOrders-- ",allOrders.length);
+  if (req.user) {
+    const currentCart = await Cart.findOne({ where: { UserId: req.user.id, isActive: true } });
+    await currentCart.update({ isActive: false });
+    const newCart = await Cart.create(
+      {
+        sessionId: req.session_id,
+        UserId: req.user.id,
+        isActive: true,
+      },
+    );
+    res.send(newCart);
+  } else {
+    const currentCart = await Cart.findOne({ where: { sessionId: req.session_id }, isActive: true });
+    currentCart.update({ isActive: false });
+    const newCart = await Cart.create(
+      {
+        sessionId: req.session_id,
+        isActive: true,
+      },
+    );
+    res.send(newCart);
+  }
+});
+
 cartRouter.post('/checkout', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const { token, total } = req.body;
     const customer = await stripe.customers.create({
@@ -103,10 +147,10 @@ cartRouter.post('/checkout', async (req, res) => {
         idempotencyKey,
       },
     );
-    console.log('Charge: ', { charge });
+    // console.log('Charge: ', { charge });
     res.sendStatus(200);
   } catch (e) {
-    console.error('Error: ', e);
+    // console.error('Error: ', e);
     res.sendStatus(400);
   }
 });
