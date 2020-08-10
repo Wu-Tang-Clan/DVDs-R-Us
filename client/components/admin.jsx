@@ -1,10 +1,11 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react/state-in-constructor */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import moment from 'moment';
 import {
-  getMovies, searchImdb, orderStock, removeMovie,
+  getMovies, searchImdb, orderStock, removeMovie, addStock,
 } from '../redux/movies/actions';
 import { getUsers, toggleAdmin } from '../redux/users/actions';
 import { adminPreviousOrders } from '../redux/cart/actions';
@@ -63,10 +64,12 @@ class Admin extends Component {
     const {
       handleSubmit, handleOrder, handleRemoveMovie, toggleAdminRole,
     } = this;
-    const { users, imdbSearchResults, inactiveOrders } = this.props;
+    const {
+      users, imdbSearchResults, inactiveOrders, addStock,
+    } = this.props;
     let { movies } = this.props;
     movies = adminInventoryFilter(movies, stockSearch);
-    console.log('INACTIVE ORDERS', inactiveOrders);
+    // console.log('INACTIVE ORDERS', inactiveOrders);
     return (
       <div className="box">
         <div className="columns is-multiline">
@@ -92,6 +95,11 @@ class Admin extends Component {
                           { movie.year }
                           )
                         </p>
+                        <p className="title is-6">
+                          Stock:
+                          {' '}
+                          {movie.stock}
+                        </p>
                       </div>
                       <div className="column is-one-quarter">
                         <button
@@ -101,7 +109,18 @@ class Admin extends Component {
                           style={{ margin: '10px' }}
                           className="button brandButton"
                         >
-                          Remove Movie
+                          Remove
+                        </button>
+                      </div>
+                      <div className="column is-one-quarter">
+                        <button
+                          type="button"
+                          value={movie.id}
+                          onClick={() => addStock(movie.id)}
+                          style={{ margin: '10px' }}
+                          className="button brandButton"
+                        >
+                          Add Stock
                         </button>
                       </div>
                     </div>
@@ -276,6 +295,7 @@ Admin.propTypes = {
   searchImdb: propTypes.func.isRequired,
   removeMovie: propTypes.func.isRequired,
   toggleAdmin: propTypes.func.isRequired,
+  addStock: propTypes.func.isRequired,
   inactiveOrders: propTypes.arrayOf(propTypes.object).isRequired,
   adminPreviousOrders: propTypes.func.isRequired,
   imdbSearchResults: propTypes.arrayOf(propTypes.object).isRequired,
@@ -292,7 +312,14 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  getMovies, getUsers, searchImdb, orderStock, removeMovie, toggleAdmin, adminPreviousOrders,
+  getMovies,
+  getUsers,
+  searchImdb,
+  orderStock,
+  removeMovie,
+  toggleAdmin,
+  adminPreviousOrders,
+  addStock,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Admin);

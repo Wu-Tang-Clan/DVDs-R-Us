@@ -117,6 +117,13 @@ const Movie = db.define('movie', {
       min: 0,
     },
   },
+  stock: {
+    type: INTEGER,
+    allowNull: false,
+    validate: {
+      min: 0,
+    },
+  },
 });
 
 module.exports = { Movie };

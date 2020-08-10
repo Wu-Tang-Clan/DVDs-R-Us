@@ -29,6 +29,16 @@ const movieReducer = (state = initialState, action) => {
         // removedMovieResults:  action.updatedmovies,
         movies: action.updatedmovies,
       };
+    case MOVIE_TYPES.ADD_STOCK:
+      return {
+        ...state,
+        movies: state.movies.map((movie) => {
+          if (movie.id === action.movie.id) {
+            return action.movie;
+          }
+          return movie;
+        }),
+      };
     default:
       return state;
   }
