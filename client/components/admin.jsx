@@ -90,7 +90,15 @@ class Admin extends Component {
                         </p>
                       </div>
                       <div className="column is-one-quarter">
-                        <button type="button" value={movie.id} onClick={(e) => handleRemoveMovie(e, movie.title)} className="button is-link">Remove Movie</button>
+                        <button
+                          type="button"
+                          value={movie.id}
+                          onClick={(e) => handleRemoveMovie(e, movie.title)}
+                          style={{ margin: '10px' }}
+                          className="button brandButton"
+                        >
+                          Remove Movie
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -118,7 +126,8 @@ class Admin extends Component {
                 </div>
                 <button
                   type="submit"
-                  className="button is-link"
+                  style={{ margin: '10px' }}
+                  className="button brandButton"
                 >
                   Search
                 </button>
@@ -156,38 +165,51 @@ class Admin extends Component {
           </div>
           <div className="column is-half">
             <p className="title is-4">Manage Users</p>
-            <div className="adminBox">
+
+            <div id="movieBox1" className="adminBox">
               {
               users
                 ? users
                   .filter((user) => user.username !== 'admin')
                   .map((user) => (
-                    <div key={user.id} className="label">
-                      {user.username}
-                      {user.isAdmin ? (
-                        <button
-                          type="submit"
-                          className="button brandButton"
-                          style={{ margin: '5px 10px', marginBottom: '4px' }}
-                          onClick={() => toggleAdminRole(user.id, user.username, !user.isAdmin)}
-                        >
-                          <strong>Remove As Admin</strong>
-                        </button>
-                      ) : null}
-                      {!user.isAdmin ? (
-                        <button
-                          type="submit"
-                          className="button brandButton"
-                          style={{ margin: '5px 10px', marginBottom: '4px' }}
-                          onClick={() => toggleAdminRole(user.id, user.username, !user.isAdmin)}
-                        >
-                          <strong>Set As Admin</strong>
-                        </button>
-                      ) : null}
+                    <div key={user.id} style={{ padding: '30px' }} className="box">
+                      <div className="columns">
+                        <div className="column is-one-quarter">
+                          <div className="label">
+                            {user.username}
+                          </div>
+                        </div>
+                        <div className="column is-one-quarter">
+                          {user.isAdmin ? (
+                            <button
+                              type="submit"
+                              style={{
+                                marginTop: '30px', marginRight: '30px', marginBottom: '30px', marginLeft: '150px',
+                              }}
+                              className="button brandButton"
+                              onClick={() => toggleAdminRole(user.id, user.username, !user.isAdmin)}
+                            >
+                              Remove As Admin
+                            </button>
+                          ) : null}
+                        </div>
+                        <div className="column is-one-quarter">
+                          {!user.isAdmin ? (
+                            <button
+                              type="submit"
+                              className="button brandButton"
+                              style={{ margin: '10px' }}
+                              onClick={() => toggleAdminRole(user.id, user.username, !user.isAdmin)}
+                            >
+                              Set As Admin
+                            </button>
+                          ) : null}
+                        </div>
+                      </div>
                     </div>
                   ))
                 : null
-              }
+            }
             </div>
           </div>
         </div>
