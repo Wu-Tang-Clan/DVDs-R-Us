@@ -116,18 +116,29 @@ export const checkoutCart = () => async (dispatch) => {
   console.log('checkoutCart called');
   await axios.put('/api/cart/checkoutCart')
     .then((res) => {
+      // console.log('CHECKOUT', res);
       if (res.data.length) {
         dispatch({
           type: CART_TYPES.CHECKOUT_CART,
-          orders: res.data,
+          orders: [],
           total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
         });
       } else {
         dispatch({
           type: CART_TYPES.CHECKOUT_CART,
-          orders: res.data,
+          orders: [],
           total: Number(0),
         });
       }
+    });
+};
+
+export const adminPreviousOrders = () => async (dispatch) => {
+  await axios.get('/api/cart/adminPreviousOrders')
+    .then((res) => {
+      dispatch({
+        type: CART_TYPES.ADMIN_PREV_ORDERS,
+        inactiveOrders: res.data,
+      });
     });
 };

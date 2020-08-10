@@ -3,6 +3,7 @@ import CART_TYPES from './types';
 const initialState = {
   orders: [],
   total: 0,
+  inactiveOrders: [],
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -48,6 +49,11 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         orders: action.orders,
         total: parseFloat(action.total).toFixed(2),
+      };
+    case CART_TYPES.ADMIN_PREV_ORDERS:
+      return {
+        ...state,
+        inactiveOrders: action.inactiveOrders,
       };
     default: return state;
   }
