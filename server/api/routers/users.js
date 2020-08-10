@@ -1,5 +1,4 @@
 const userRouter = require('express').Router();
-const chalk = require('chalk');
 const bcrypt = require('bcrypt');
 const {
   User, Session, Review, Cart, Order,
