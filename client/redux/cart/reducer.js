@@ -35,13 +35,19 @@ const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         orders: action.orders,
-        total: Number(action.total).toFixed(2),
+        total: parseFloat(action.total).toFixed(2),
       };
     case CART_TYPES.EDIT_CART_QUANTITY:
       return {
         ...state,
         orders: action.orders,
-        total: Number(action.total).toFixed(2),
+        total: parseFloat(action.total).toFixed(2),
+      };
+    case CART_TYPES.CHECKOUT_CART:
+      return {
+        ...state,
+        orders: action.orders,
+        total: parseFloat(action.total).toFixed(2),
       };
     default: return state;
   }
