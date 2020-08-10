@@ -118,13 +118,13 @@ export const checkoutCart = () => async (dispatch) => {
     .then((res) => {
       if (res.data.length) {
         dispatch({
-          type: CART_TYPES.EDIT_CART_QUANTITY,
+          type: CART_TYPES.CHECKOUT_CART,
           orders: res.data,
           total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
         });
       } else {
         dispatch({
-          type: CART_TYPES.EDIT_CART_QUANTITY,
+          type: CART_TYPES.CHECKOUT_CART,
           orders: res.data,
           total: Number(0),
         });
