@@ -39,8 +39,11 @@ userRouter.post('/login', async (req, res) => {
             sessionId: req.session_id,
           },
         });
+        await Order.update({ username: user.username }, { where: { CartId: currentCart.id } });
         if (activeCart) {
-          await Order.update({ CartId: currentCart.id }, { where: { CartId: activeCart.id } });
+          await Order.update({
+            CartId: currentCart.id,
+          }, { where: { CartId: activeCart.id } });
         }
         await Cart.update({ UserId: user.id }, { where: { id: currentCart.id } });
         if (activeCart) {
@@ -108,7 +111,8 @@ userRouter.post('/signup', async (req, res) => {
         },
       });
       if (activeCart) {
-        await Order.update({ CartId: currentCart.id }, { where: { CartId: activeCart.id } });
+        await Order.update({ CartId: currentCart.id, username: user.username },
+          { where: { CartId: activeCart.id } });
       }
       await Cart.update({ UserId: user.id }, { where: { id: currentCart.id } });
       if (activeCart) {

@@ -34,6 +34,11 @@ const Order = db.define('order', {
     type: ARRAY(TEXT),
     unique: false,
   },
+  username: {
+    type: STRING,
+    unique: false,
+    defaultValue: 'Guest',
+  },
 });
 
 module.exports = { Order };

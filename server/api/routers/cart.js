@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 require('dotenv').config();
+const chalk = require('chalk');
 const cartRouter = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
 const stripe = require('stripe')(process.env.STRIPE_SK);
-const { Cart, Order, Movie } = require('../../db/Models/index');
+const {
+  Cart, Order, Movie, User,
+} = require('../../db/Models/index');
 
 cartRouter.post('/addtocart', async (req, res) => {
   const { movieId, quantity } = req.body;
@@ -19,16 +22,31 @@ cartRouter.post('/addtocart', async (req, res) => {
       id: movieId,
     },
   });
-  const createdOrder = await Order.create(
-    {
-      movieId,
-      quantity,
-      CartId: cart.id,
-      name: movie.title,
-      images: [movie.poster],
-    },
-  );
-  res.send(createdOrder);
+  if (cart.UserId) {
+    const user = await User.findOne({ where: { id: cart.UserId } });
+    const createdOrder = await Order.create(
+      {
+        movieId,
+        quantity,
+        CartId: cart.id,
+        name: movie.title,
+        images: [movie.poster],
+        username: user.username,
+      },
+    );
+    res.send(createdOrder);
+  } else {
+    const createdOrder = await Order.create(
+      {
+        movieId,
+        quantity,
+        CartId: cart.id,
+        name: movie.title,
+        images: [movie.poster],
+      },
+    );
+    res.send(createdOrder);
+  }
 });
 
 cartRouter.get('/', async (req, res) => {
@@ -53,6 +71,24 @@ cartRouter.get('/active', async (req, res) => {
     const currentOrders = await Order.findAll({ where: { CartId: currentCart.id } });
     res.send(currentOrders);
   }
+});
+
+cartRouter.get('/adminPreviousOrders', async (req, res) => {
+  const previousCarts = [];
+  const inactive = await Cart.findAll({ where: { isActive: false }, raw: true });
+  await inactive.forEach(async (cart, idx) => {
+    const orders = await Order.findAll({ where: { CartId: cart.id }, raw: true });
+    const prevCart = {
+      inactiveId: uuidv4(),
+      username: orders[0].username,
+      checkoutTime: cart.updatedAt,
+      orders,
+    };
+    previousCarts.push(prevCart);
+    if (idx === inactive.length - 1) {
+      res.send(previousCarts);
+    }
+  });
 });
 
 cartRouter.delete('/removefromcart/:movieid/:cartid', async (req, res) => {
