@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-shadow */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -5,7 +8,10 @@ import propTypes from 'prop-types';
 import Alert from 'react-s-alert';
 import StripeCheckout from 'react-stripe-checkout';
 import axios from 'axios';
-import { getCartItems, removeFromCart, editCartQuantity } from '../redux/cart/actions';
+import path from 'path';
+import {
+  getCartItems, removeFromCart, editCartQuantity, getActiveCartItems, checkoutCart,
+} from '../redux/cart/actions';
 import { orderParser } from '../utilities';
 import { getMovies } from '../redux/movies/actions';
 import store from '../redux/store';
@@ -14,13 +20,16 @@ const PUBLISHING_KEY = 'pk_test_51HC5PPIpeeFTP4XBYprFZCBhZtuaovgYyM6HCY5dOyE3vcB
 
 class Cart extends Component {
   async componentDidMount() {
-    const { getCartItems, getMovies } = this.props;
-
+    const {
+      getCartItems, getMovies, getActiveCartItems, checkoutCart,
+    } = this.props;
     await getMovies();
-    await getCartItems();
+    await getActiveCartItems();
   }
 
   handleToken = async (token) => {
+    const { props: { history } } = this.props;
+    const { checkoutCart, getActiveCartItems } = this.props;
     // eslint-disable-next-line prefer-destructuring
     const total = store.getState().cartReducer.total;
     const response = await axios.post('/api/cart/checkout', {
@@ -32,6 +41,11 @@ class Cart extends Component {
         effect: 'slide',
         timeout: 3000,
       });
+      await checkoutCart();
+      await getActiveCartItems();
+      setTimeout(() => {
+        history.push('/');
+      }, 1000);
     } else {
       Alert.error('WOMP WOMP! Dude where\'s your car?! Better luck next time :)', {
         effect: 'slide',
@@ -152,6 +166,7 @@ class Cart extends Component {
 
 Cart.propTypes = {
   getCartItems: propTypes.func.isRequired,
+  getActiveCartItems: propTypes.func.isRequired,
   getMovies: propTypes.func.isRequired,
   removeFromCart: propTypes.func.isRequired,
   editCartQuantity: propTypes.func.isRequired,
@@ -167,7 +182,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  getCartItems, getMovies, removeFromCart, editCartQuantity,
+  getCartItems, getMovies, removeFromCart, editCartQuantity, getActiveCartItems, checkoutCart,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -17,7 +17,13 @@ const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         orders: action.orders,
-        total: Number(action.total).toFixed(2),
+        total: parseFloat(action.total).toFixed(2),
+      };
+    case CART_TYPES.GET_ACTIVE_CART_ITEMS:
+      return {
+        ...state,
+        orders: action.orders,
+        total: parseFloat(action.total).toFixed(2),
       };
     case CART_TYPES.CLEAR_STORE_CART:
       return {
