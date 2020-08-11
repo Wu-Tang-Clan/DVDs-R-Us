@@ -59,4 +59,13 @@ movieRouter.delete('/remove/:id', async (req, res) => {
   res.sendStatus(200);
 });
 
+movieRouter.put('/addstock/:id', async (req, res) => {
+  const { id } = req.params;
+  const currMovie = await Movie.findOne({ where: { id } });
+  const newStock = (currMovie.stock + 50);
+  await Movie.update({ stock: newStock }, { where: { id } });
+  const movie = await Movie.findOne({ where: { id } });
+  res.send(movie);
+});
+
 module.exports = movieRouter;

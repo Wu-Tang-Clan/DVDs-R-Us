@@ -105,6 +105,12 @@ p {
     color: #1030AD;
 }
 
+.brandSelected {
+    background-color: #ffcc00;
+    color: #1030AD;
+    box-shadow: 0px 0px 10px white;
+}
+
 .button:hover {
     transform: scale(1.05);
     color: #1030AD;

@@ -52,6 +52,16 @@ export const removeMovie = (id, title) => async (dispatch) => {
     });
 };
 
-export const addMovie = () => async () => {
-//  action created to prevent linting error caused by not exporting default
+export const addStock = (id) => async (dispatch) => {
+  await axios.put(`/api/movies/addstock/${id}`)
+    .then((res) => {
+      dispatch({
+        type: MOVIE_TYPES.ADD_STOCK,
+        movie: res.data,
+      });
+    });
 };
+
+// export const addMovie = () => async () => {
+// //  action created to prevent linting error caused by not exporting default
+// };
