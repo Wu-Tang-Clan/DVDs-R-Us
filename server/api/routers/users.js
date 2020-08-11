@@ -152,4 +152,20 @@ userRouter.put('/setadmin/:userid/', async (req, res) => {
   res.sendStatus(200);
 });
 
+userRouter.put('/changeusername/:userid/', async (req, res) => {
+  await User.update({ username: req.body.newUserName },
+    { where: { id: req.params.userid } });
+  res.sendStatus(200);
+});
+
+userRouter.get('/:userid', async (req, res) => {
+  const updatedUser = await User.findOne({ where: { id: req.params.userid } });
+  res.send(updatedUser);
+});
+
+userRouter.get('/userreviews/:userId', async (req, res) => {
+  const reviews = await Review.findAll({ where: { UserId: req.params.userId } });
+  res.send(reviews);
+});
+
 module.exports = userRouter;

@@ -97,7 +97,7 @@ class Nav extends Component {
               {loggedIn ? (
                 <Link
                   className="navbar-item"
-                  to={`/myaccount/${loggedInUser.id}`}
+                  to={`/useraccount/${loggedInUser.id}`}
                 >
                   <i style={{ marginRight: '5px' }} className="fa fa-address-card" />
                   My Account
