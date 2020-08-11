@@ -77,7 +77,7 @@ const userReducer = (state = initialState, action) => {
     case USER_TYPES.CHANGE_USERNAME:
       return {
         ...state,
-        users: action.users,
+        loggedInUser: action.users,
       };
     default:
       return state;
