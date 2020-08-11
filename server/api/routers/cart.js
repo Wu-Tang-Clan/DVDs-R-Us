@@ -9,6 +9,13 @@ const {
   Cart, Order, Movie, User,
 } = require('../../db/Models/index');
 
+const createPrevCart = async (inactiveId, checkoutTime, orders) => ({
+  inactiveId,
+  username: orders[0].username,
+  checkoutTime,
+  orders,
+});
+
 cartRouter.post('/addtocart', async (req, res) => {
   const { movieId, quantity } = req.body;
   const cart = await Cart.findOne({
@@ -78,15 +85,14 @@ cartRouter.get('/adminPreviousOrders', async (req, res) => {
   const inactive = await Cart.findAll({ where: { isActive: false }, raw: true });
   await inactive.forEach(async (cart, idx) => {
     const orders = await Order.findAll({ where: { CartId: cart.id }, raw: true });
-    const prevCart = {
-      inactiveId: uuidv4(),
-      username: orders[0].username,
-      checkoutTime: cart.updatedAt,
-      orders,
-    };
-    previousCarts.push(prevCart);
-    if (idx === inactive.length - 1) {
-      res.send(previousCarts);
+    const inactiveId = uuidv4();
+    const prevCart = await createPrevCart(inactiveId, cart.updatedAt, orders);
+    await previousCarts.push(prevCart);
+    // if (idx === inactive.length - 1) {
+    //   await res.send(previousCarts);
+    // }
+    if (previousCarts.length === inactive.length) {
+      await res.send(previousCarts);
     }
   });
 });

@@ -15,6 +15,7 @@ class Admin extends Component {
   state = {
     searchInput: '',
     stockSearch: '',
+    loaded: false,
   }
 
   async componentDidMount() {
@@ -23,6 +24,9 @@ class Admin extends Component {
     await adminPreviousOrders();
     await getMovies();
     await getUsers();
+    await this.setState({
+      loaded: true,
+    });
   }
 
   handleSubmit = async (e) => {
@@ -58,7 +62,7 @@ class Admin extends Component {
   };
 
   render() {
-    const { searchInput, stockSearch } = this.state;
+    const { searchInput, stockSearch, loaded } = this.state;
     // console.log(stockSearch);
     const {
       handleSubmit, handleOrder, handleRemoveMovie, toggleAdminRole,
@@ -68,7 +72,7 @@ class Admin extends Component {
     movies = adminInventoryFilter(movies, stockSearch);
     console.log('INACTIVE ORDERS', inactiveOrders);
     return (
-      <div className="box">
+      <div style={{ marginTop: '3.75rem' }} className="box">
         <div className="columns is-multiline">
           <div className="column is-half">
             <label htmlFor="movieBox1" className="label">Movies In Stock</label>
@@ -217,9 +221,13 @@ class Admin extends Component {
             </div>
           </div>
           <div className="column is-half">
-            <p className="title is-4">Previous Orders</p>
-            <div className="adminBox">
-              {
+            {
+              loaded
+                ? (
+                  <div>
+                    <p className="title is-4">Previous Orders</p>
+                    <div className="adminBox">
+                      {
                inactiveOrders.length
                  ? inactiveOrders.map((order) => (
                    <div className="box" key={order.inactiveId}>
@@ -262,7 +270,12 @@ class Admin extends Component {
                  ))
                  : null
              }
-            </div>
+                    </div>
+                  </div>
+                )
+                : null
+            }
+
           </div>
         </div>
       </div>
