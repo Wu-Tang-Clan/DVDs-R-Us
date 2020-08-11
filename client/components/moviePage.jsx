@@ -7,6 +7,7 @@ import propTypes from 'prop-types';
 import { getMovies } from '../redux/movies/actions';
 import { loginCheck, submitReview, getReviews } from '../redux/users/actions';
 import ReviewList from './reviewList';
+import { addToCart } from '../redux/cart/actions';
 
 class MoviePage extends Component {
   state = {
@@ -71,7 +72,7 @@ class MoviePage extends Component {
     const {
       movies,
       loggedIn,
-      currentMovieReviews,
+      currentMovieReviews, addToCart,
       props: {
         history,
         match: {
@@ -174,8 +175,8 @@ class MoviePage extends Component {
                           {`Price: $${parseFloat(movie.price).toFixed(2)}`}
                         </p>
                         <input className="input" type="number" min="1" value={quantity} onChange={(e) => this.setState({ quantity: e.target.value })} />
-                        <button style={{ margin: '10px' }} className="button is-link" type="button">Add To Cart</button>
-                        <button style={{ margin: '10px' }} className="button is-link" type="button">Add to Wishlist</button>
+                        <button style={{ margin: '10px' }} className="button brandButton" type="button" onClick={() => addToCart(movie.id, quantity, movie.title)}>Add To Cart</button>
+                        <button style={{ margin: '10px' }} className="button brandButton" type="button">Add to Wishlist</button>
                       </div>
                     </div>
                   </div>
@@ -253,6 +254,7 @@ MoviePage.propTypes = {
   submitReview: propTypes.func.isRequired,
   currentMovieReviews: propTypes.arrayOf(propTypes.object).isRequired,
   getReviews: propTypes.func.isRequired,
+  addToCart: propTypes.func.isRequired,
   loggedIn: propTypes.bool.isRequired,
   movies: propTypes.arrayOf(propTypes.object).isRequired,
   props: propTypes.shape({
@@ -273,7 +275,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  getMovies, loginCheck, submitReview, getReviews,
+  getMovies, loginCheck, submitReview, getReviews, addToCart,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);
