@@ -211,7 +211,7 @@ class Admin extends Component {
                             <button
                               type="submit"
                               style={{
-                                marginTop: '30px', marginRight: '30px', marginBottom: '30px', marginLeft: '150px',
+                                marginTop: '10px', marginRight: '10px', marginBottom: '10px', marginLeft: '150px',
                               }}
                               className="button brandButton"
                               onClick={() => toggleAdminRole(user.id, user.username, !user.isAdmin)}
