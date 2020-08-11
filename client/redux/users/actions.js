@@ -131,3 +131,20 @@ export const toggleAdmin = (userId, userName, isAdmin) => (dispatch) => {
       }
     });
 };
+
+export const changeUserName = (userId, userName, newUserName) => (dispatch) => {
+  axios.put(`/api/users/changeusername/${userId}`, { newUserName });
+  axios.get(`api/users/${userId}`)
+    .then((res) => {
+      dispatch({
+        type: USER_TYPES.CHANGE_USERNAME,
+        users: res.data,
+      });
+      if (res.status === 200) {
+        Alert.success(`Your username has been updated to ${res.data.username}`, {
+          effect: 'slide',
+          timeout: 1500,
+        });
+      }
+    });
+};

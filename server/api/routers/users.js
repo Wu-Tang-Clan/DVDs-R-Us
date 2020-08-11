@@ -152,4 +152,15 @@ userRouter.put('/setadmin/:userid/', async (req, res) => {
   res.sendStatus(200);
 });
 
+userRouter.put('/changeusername/:userid/', async (req, res) => {
+  await User.update({ username: req.body.newUserName },
+    { where: { id: req.params.userid } });
+  res.sendStatus(200);
+});
+
+userRouter.get('/:userid', async (req, res) => {
+  const updatedUser = await User.findOne({ where: { id: req.params.userid } });
+  res.send(updatedUser);
+});
+
 module.exports = userRouter;
