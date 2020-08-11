@@ -163,4 +163,9 @@ userRouter.get('/:userid', async (req, res) => {
   res.send(updatedUser);
 });
 
+userRouter.get('/userreviews/:userId', async (req, res) => {
+  const reviews = await Review.findAll({ where: { UserId: req.params.userId } });
+  res.send(reviews);
+});
+
 module.exports = userRouter;

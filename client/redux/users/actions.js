@@ -148,3 +148,13 @@ export const changeUserName = (userId, userName, newUserName) => (dispatch) => {
       }
     });
 };
+
+export const getUserPreviousReviews = (userId) => (dispatch) => {
+  axios.get(`/api/users/userreviews/${userId}`)
+    .then((res) => {
+      dispatch({
+        type: USER_TYPES.USER_PREVIOUS_REVIEWS,
+        myreviews: res.data.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)),
+      });
+    });
+};

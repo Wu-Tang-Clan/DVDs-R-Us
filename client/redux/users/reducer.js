@@ -8,6 +8,7 @@ const initialState = {
   userExists: false,
   firstTimeSignup: false,
   currentMovieReviews: [],
+  userPreviousReviews: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -78,6 +79,11 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         loggedInUser: action.users,
+      };
+    case USER_TYPES.USER_PREVIOUS_REVIEWS:
+      return {
+        ...state,
+        userPreviousReviews: action.myreviews,
       };
     default:
       return state;
