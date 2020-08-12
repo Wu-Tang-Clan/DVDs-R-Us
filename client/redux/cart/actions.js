@@ -10,17 +10,24 @@ const axios = require('axios');
 export const addToCart = (movieId, quantity, title) => async (dispatch) => {
   await axios.post('/api/cart/addtocart', { movieId, quantity })
     .then((res) => {
-      console.log(res.data);
-      dispatch({
-        type: CART_TYPES.ADD_TO_CART,
-        order: res.data,
-        price: Number((res.data.quantity * 0.99).toFixed(2)),
-      });
-      Alert.success(`${title} added to cart!`, {
-        effect: 'slide',
-        timeout: 1500,
-      });
-      console.log('UPDATED STORE', store.getState().cartReducer);
+      console.log(res);
+      if (res.status === 204) {
+        Alert.error(`Bummer! We don't have enough copies of ${title} to fulfill that order!`, {
+          effect: 'slide',
+          timeout: 1500,
+        });
+      } else {
+        dispatch({
+          type: CART_TYPES.ADD_TO_CART,
+          order: res.data,
+          price: Number((res.data.quantity * 0.99).toFixed(2)),
+        });
+        Alert.success(`${title} added to cart!`, {
+          effect: 'slide',
+          timeout: 1500,
+        });
+        console.log('UPDATED STORE', store.getState().cartReducer);
+      }
     });
 };
 
@@ -93,23 +100,32 @@ export const removeFromCart = (movieId, cartId, title) => async (dispatch) => {
 export const editCartQuantity = (movieId, cartId, quantity) => async (dispatch) => {
   await axios.put(`/api/cart/editcartquantity/${movieId}/${cartId}`, {
     quantity,
+  }).then(async (response) => {
+    if (response.status === 204) {
+      Alert.error('Bummer! We don\'t have enough copies to fulfill that order!', {
+        effect: 'slide',
+        timeout: 1500,
+      });
+    } else {
+      await axios.get('/api/cart/active')
+        .then((res) => {
+          if (res.data.length) {
+            dispatch({
+              type: CART_TYPES.EDIT_CART_QUANTITY,
+              orders: res.data,
+              total: res.data.map((order) => Number(order.quantity))
+                .reduce((a, b) => a + (b * 0.99)),
+            });
+          } else {
+            dispatch({
+              type: CART_TYPES.EDIT_CART_QUANTITY,
+              orders: res.data,
+              total: Number(0),
+            });
+          }
+        });
+    }
   });
-  await axios.get('/api/cart/active')
-    .then((res) => {
-      if (res.data.length) {
-        dispatch({
-          type: CART_TYPES.EDIT_CART_QUANTITY,
-          orders: res.data,
-          total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
-        });
-      } else {
-        dispatch({
-          type: CART_TYPES.EDIT_CART_QUANTITY,
-          orders: res.data,
-          total: Number(0),
-        });
-      }
-    });
 };
 
 export const checkoutCart = () => async (dispatch) => {

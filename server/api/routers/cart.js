@@ -29,30 +29,35 @@ cartRouter.post('/addtocart', async (req, res) => {
       id: movieId,
     },
   });
-  if (cart.UserId) {
-    const user = await User.findOne({ where: { id: cart.UserId } });
-    const createdOrder = await Order.create(
-      {
-        movieId,
-        quantity,
-        CartId: cart.id,
-        name: movie.title,
-        images: [movie.poster],
-        username: user.username,
-      },
-    );
-    res.send(createdOrder);
+  if ((movie.stock - quantity) >= 0) {
+    await Movie.update({ stock: (movie.stock - quantity) }, { where: { id: movieId } });
+    if (cart.UserId) {
+      const user = await User.findOne({ where: { id: cart.UserId } });
+      const createdOrder = await Order.create(
+        {
+          movieId,
+          quantity,
+          CartId: cart.id,
+          name: movie.title,
+          images: [movie.poster],
+          username: user.username,
+        },
+      );
+      res.send(createdOrder);
+    } else {
+      const createdOrder = await Order.create(
+        {
+          movieId,
+          quantity,
+          CartId: cart.id,
+          name: movie.title,
+          images: [movie.poster],
+        },
+      );
+      res.send(createdOrder);
+    }
   } else {
-    const createdOrder = await Order.create(
-      {
-        movieId,
-        quantity,
-        CartId: cart.id,
-        name: movie.title,
-        images: [movie.poster],
-      },
-    );
-    res.send(createdOrder);
+    res.sendStatus(204);
   }
 });
 
@@ -98,34 +103,90 @@ cartRouter.get('/adminPreviousOrders', async (req, res) => {
 });
 
 cartRouter.delete('/removefromcart/:movieid/:cartid', async (req, res) => {
+  const orders = await Order.findAll({ where: { CartId: req.params.cartid, movieId: req.params.movieid }, raw: true });
+  const totalQuantity = orders.reduce((a, b) => {
+    // eslint-disable-next-line no-param-reassign
+    a += b.quantity;
+    return a;
+  }, 0);
+  const movie = await Movie.findOne({ where: { id: req.params.movieid } });
+  await Movie.update({ stock: (movie.stock + totalQuantity) }, { where: { id: req.params.movieid } });
   await Order.destroy({ where: { CartId: req.params.cartid, movieId: req.params.movieid } });
   res.sendStatus(200);
 });
 
 cartRouter.put('/editcartquantity/:movieid/:cartid', async (req, res) => {
-  // const allOrders =    await Order.findAll({ where: { movieId: req.params.movieid,
-  // CartId: req.params.cartid } });
-  // console.log("allOrders-- ",allOrders);
-  // console.log("allOrders-- ",allOrders.length);
-  await Order.update({ quantity: 0 },
-    { where: { movieId: req.params.movieid, CartId: req.params.cartid } });
-  const order = await Order.findOne({
-    where: {
-      movieId: req.params.movieid,
-      CartId: req.params.cartid,
-    },
-  });
-  await Order.update({ quantity: req.body.quantity },
-    { where: { movieId: order.movieId, CartId: order.CartId, id: order.id } });
-
-  await Order.destroy({
-    where: {
-      movieId: req.params.movieid,
-      CartId: req.params.cartid,
-      quantity: 0,
-    },
-  });
-  res.sendStatus(200);
+  const { movieid, cartid } = req.params;
+  const { quantity } = req.body;
+  // GET CURRENT MOVIE
+  const currMovie = await Movie.findOne({ where: { id: movieid } });
+  // GET ORDERS
+  const currOrders = await Order.findAll({ where: { movieId: movieid, CartId: cartid } });
+  // GET CURRENT TOTAL QUANTITY OF ORDERS
+  const currQuantity = currOrders.reduce((a, b) => {
+    // eslint-disable-next-line no-param-reassign
+    a += b.quantity;
+    return a;
+  }, 0);
+  // IF NEW QUANTITY IS GREATER
+  if (quantity > currQuantity) {
+    // GET DIFFERENCE
+    const diff = (quantity - currQuantity);
+    // IF SUBTRACTING DIFFERENCE FROM STOCK IS STILL ABOVE ZERO
+    if ((currMovie.stock - diff) >= 0) {
+      // RETURN OLD STOCK
+      await Movie.update({ stock: (currMovie.stock + currQuantity) }, { where: { id: movieid } });
+      // RESET ORDER BACK TO ZERO
+      await Order.update({ quantity: 0 },
+        { where: { movieId: req.params.movieid, CartId: req.params.cartid } });
+      // GRAB ONE OF THE ORDERS
+      const order = await Order.findOne({
+        where: {
+          movieId: movieid,
+          CartId: cartid,
+        },
+      });
+      // UPDATE ORDER WITH NEW QUANTITY
+      await Order.update({ quantity: req.body.quantity },
+        { where: { movieId: order.movieId, CartId: order.CartId, id: order.id } });
+      const updatedMovie = await Movie.findOne({ where: { id: movieid } });
+      // UPDATE MOVIE QUANTITY
+      await Movie.update({ stock: (updatedMovie.stock - quantity) }, { where: { id: movieid } });
+      await Order.destroy({
+        where: {
+          movieId: req.params.movieid,
+          CartId: req.params.cartid,
+          quantity: 0,
+        },
+      });
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(204);
+    }
+  } else {
+    const diff = (currQuantity - quantity);
+    await Movie.update({ stock: (currMovie.stock + currQuantity) }, { where: { id: movieid } });
+    await Order.update({ quantity: 0 },
+      { where: { movieId: req.params.movieid, CartId: req.params.cartid } });
+    const order = await Order.findOne({
+      where: {
+        movieId: movieid,
+        CartId: cartid,
+      },
+    });
+    await Order.update({ quantity: req.body.quantity },
+      { where: { movieId: order.movieId, CartId: order.CartId, id: order.id } });
+    const updatedMovie = await Movie.findOne({ where: { id: movieid } });
+    await Movie.update({ stock: (updatedMovie.stock - quantity) }, { where: { id: movieid } });
+    await Order.destroy({
+      where: {
+        movieId: req.params.movieid,
+        CartId: req.params.cartid,
+        quantity: 0,
+      },
+    });
+    res.sendStatus(200);
+  }
 });
 
 cartRouter.put('/checkoutCart', async (req, res) => {
@@ -198,3 +259,38 @@ cartRouter.post('/checkout', async (req, res) => {
 });
 
 module.exports = cartRouter;
+
+// cartRouter.put('/editcartquantity/:movieid/:cartid', async (req, res) => {
+//   // const allOrders =    await Order.findAll({ where: { movieId: req.params.movieid,
+//   // CartId: req.params.cartid } });
+//   // console.log("allOrders-- ",allOrders);
+//   // console.log("allOrders-- ",allOrders.length);
+//   const currOrders = await Order.findAll({ where: { movieId: req.params.movieid, CartId: req.params.cartid } });
+//   const currQuantity = currOrders.reduce((a, b) => {
+//     // eslint-disable-next-line no-param-reassign
+//     a += b.quantity;
+//     return a;
+//   }, 0);
+//   await Order.update({ quantity: 0 },
+//     { where: { movieId: req.params.movieid, CartId: req.params.cartid } });
+//   const movie = await Movie.findOne({ where: { id: req.params.movieid } });
+//   await Movie.update({ stock: (movie.stock + currQuantity) }, { where: { id: req.params.movieid } });
+//   const order = await Order.findOne({
+//     where: {
+//       movieId: req.params.movieid,
+//       CartId: req.params.cartid,
+//     },
+//   });
+//   await Order.update({ quantity: req.body.quantity },
+//     { where: { movieId: order.movieId, CartId: order.CartId, id: order.id } });
+//   const updatedMovie = await Movie.findOne({ where: { id: req.params.movieid } });
+//   await Movie.update({ stock: updatedMovie.stock + req.body.quantity }, { where: { id: req.params.movieid } });
+//   await Order.destroy({
+//     where: {
+//       movieId: req.params.movieid,
+//       CartId: req.params.cartid,
+//       quantity: 0,
+//     },
+//   });
+//   res.sendStatus(200);
+// });

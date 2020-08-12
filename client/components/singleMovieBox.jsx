@@ -64,7 +64,7 @@ class SingleMovieBox extends Component {
                     style={{ margin: '10px' }}
                     type="number"
                     min="1"
-                    max="20"
+                    max={movie.stock}
                     value={this.state.quantity}
                     onChange={(ev) => this.setState({ quantity: ev.target.value })}
                   />

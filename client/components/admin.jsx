@@ -1,5 +1,7 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-shadow */
 /* eslint-disable react/state-in-constructor */
+import Alert from 'react-s-alert';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
@@ -16,18 +18,28 @@ class Admin extends Component {
   state = {
     searchInput: '',
     stockSearch: '',
-    loaded: false,
   }
 
   async componentDidMount() {
     // eslint-disable-next-line no-shadow
-    const { getMovies, getUsers, adminPreviousOrders } = this.props;
-    await adminPreviousOrders();
-    await getMovies();
-    await getUsers();
-    await this.setState({
-      loaded: true,
+    const {
+      getMovies, getUsers, adminPreviousOrders, movies,
+    } = this.props;
+    adminPreviousOrders();
+    getMovies();
+    getUsers();
+    const lowStock = [];
+    movies.forEach((movie) => {
+      if (movie.stock <= 10) {
+        lowStock.push(movie.title);
+      }
     });
+    if (lowStock.length) {
+      Alert.warning(`The following movies are running low: ${lowStock.join(', ')}`, {
+        position: 'top',
+        timeout: 'none',
+      });
+    }
   }
 
   handleSubmit = async (e) => {
@@ -63,7 +75,7 @@ class Admin extends Component {
   };
 
   render() {
-    const { searchInput, stockSearch, loaded } = this.state;
+    const { searchInput, stockSearch } = this.state;
     // console.log(stockSearch);
     const {
       handleSubmit, handleOrder, handleRemoveMovie, toggleAdminRole,
@@ -74,8 +86,9 @@ class Admin extends Component {
     let { movies } = this.props;
     movies = adminInventoryFilter(movies, stockSearch);
     // console.log('INACTIVE ORDERS', inactiveOrders);
+    console.log(this.props);
     return (
-      <div style={{ marginTop: '3.75rem' }} className="box">
+      <div className="box">
         <div className="columns is-multiline">
           <div className="column is-half">
             <label htmlFor="movieBox1" className="label">Movies In Stock</label>
@@ -198,39 +211,33 @@ class Admin extends Component {
               users
                 ? users
                   .filter((user) => user.username !== 'admin')
+                  .sort((a, b) => (a.username.toLowerCase() > b.username.toLowerCase() ? 1 : -1))
                   .map((user) => (
                     <div key={user.id} style={{ padding: '30px' }} className="box">
                       <div className="columns">
-                        <div className="column is-one-quarter">
+                        <div className="column is-one-half">
                           <div className="label">
                             {user.username}
                           </div>
                         </div>
-                        <div className="column is-one-quarter">
+                        <div className="column is-one-half">
                           {user.isAdmin ? (
                             <button
                               type="submit"
-                              style={{
-                                marginTop: '10px', marginRight: '10px', marginBottom: '10px', marginLeft: '150px',
-                              }}
                               className="button brandButton"
                               onClick={() => toggleAdminRole(user.id, user.username, !user.isAdmin)}
                             >
-                              Remove As Admin
+                              Remove Admin
                             </button>
-                          ) : null}
-                        </div>
-                        <div className="column is-one-quarter">
-                          {!user.isAdmin ? (
+                          ) : (
                             <button
                               type="submit"
                               className="button brandButton"
-                              style={{ margin: '10px' }}
                               onClick={() => toggleAdminRole(user.id, user.username, !user.isAdmin)}
                             >
                               Set As Admin
                             </button>
-                          ) : null}
+                          )}
                         </div>
                       </div>
                     </div>
@@ -240,13 +247,9 @@ class Admin extends Component {
             </div>
           </div>
           <div className="column is-half">
-            {
-              loaded
-                ? (
-                  <div>
-                    <p className="title is-4">Previous Orders</p>
-                    <div className="adminBox">
-                      {
+            <p className="title is-4">Previous Orders</p>
+            <div className="adminBox">
+              {
                inactiveOrders.length
                  ? inactiveOrders.map((order) => (
                    <div className="box" key={order.inactiveId}>
@@ -254,7 +257,10 @@ class Admin extends Component {
                        <p>
                          {order.username}
                          : $
-                         {order.orders.reduce((a, b) => (a.quantity * 0.99) + (b.quantity * 0.99))}
+                         {order.orders.reduce((a, b) => {
+                           a += (b.quantity * 0.99);
+                           return a;
+                         }, 0)}
                        </p>
                        <p>{moment(order.checkoutTime).format('dddd, MMMM, Do YYYY')}</p>
                      </div>
@@ -289,12 +295,7 @@ class Admin extends Component {
                  ))
                  : null
              }
-                    </div>
-                  </div>
-                )
-                : null
-            }
-
+            </div>
           </div>
         </div>
       </div>
