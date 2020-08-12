@@ -80,63 +80,49 @@ class Cart extends Component {
       // console.log('single movie ', movie);
       return (
         <div className="container" key={order.id}>
-          <div className="card has-background-link-dark">
-            <div className="card-image" />
-            <div className="card-content">
-              <div className="media">
-                <div className="media-left">
-                  <figure className="image is-48x48">
-                    <img src={movie[0].poster} alt={movie[0].title} />
-                  </figure>
-                </div>
-                <div className="media-content">
-                  <p className="title is-4">Name</p>
-                  <p className="subtitle is-6">{movie[0].title}</p>
-                </div>
-                <div className="media-content">
-                  <p className="title is-4">Quantity</p>
-                  <p className="subtitle is-6">{order.quantity}</p>
-                </div>
-                <div className="media-content">
-                  <p className="title is-4">Price</p>
-                  <p className="subtitle is-6">
-                    {(order.quantity * movie[0].price).toFixed(2)}
-                  </p>
-                </div>
-                <div className="media-content">
-                  <p className="title is-4" />
-
-                  <p className="subtitle is-6">
-                    <input
-                      type="number"
-                      min="1"
-                      max="20"
-                      value={order.quantity}
-                      onChange={(ev) => this.handleChangeInCartQuantity(movie[0].id,
-                        order.CartId, ev.target.value)}
-                    />
-                  </p>
-                </div>
-
-                <div className="media-content">
-                  <p className="title is-4" />
-                  <p className="subtitle is-6">
-                    <button
-                      type="submit"
-                      style={{ margin: '10px' }}
-                      className="button is-link"
-                      onClick={
+          <div className="card" style={{ backgroundColor: '#1030AD', height: '150px' }}>
+            <div className="columns">
+              <div className="column is one-fifth">
+                <p className="title is-6">{movie[0].title}</p>
+                <figure className="image is-48x48">
+                  <img src={movie[0].poster} alt={movie[0].title} />
+                </figure>
+              </div>
+              <div className="column is-one-fifth">
+                <p className="subtitle is-6">{order.quantity}</p>
+              </div>
+              <div className="column is-one-fifth">
+                <p className="subtitle is-6">
+                  {(order.quantity * movie[0].price).toFixed(2)}
+                </p>
+              </div>
+              <div className="column is-one-fifth">
+                <input
+                  className="input"
+                  style={{ width: '70px' }}
+                  type="number"
+                  min="1"
+                  max={movie[0].stock}
+                  value={order.quantity}
+                  onChange={(ev) => this.handleChangeInCartQuantity(movie[0].id,
+                    order.CartId, ev.target.value)}
+                />
+              </div>
+              <div className="column is-one-fifth">
+                <button
+                  type="submit"
+                  style={{ margin: '10px' }}
+                  className="button brandButton"
+                  onClick={
                         () => this.handleRemoveFromCart(
                           movie[0].id,
                           order.CartId,
                           movie[0].title,
                         )
                       }
-                    >
-                      Remove
-                    </button>
-                  </p>
-                </div>
+                >
+                  Remove
+                </button>
               </div>
             </div>
           </div>
@@ -145,20 +131,57 @@ class Cart extends Component {
     });
 
     return (
-      <div>
-        <h1 className="is-size-2">My Shopping Cart</h1>
-        <br />
-        <div>{orderList}</div>
-        <div className="card has-background-link">
-          <p className="subtitle is-4">{`Your Total is ${total}`}</p>
-        </div>
-        <StripeCheckout
-          stripeKey={PUBLISHING_KEY}
-          amount={Number(total * 100)}
-          shippingAddress
-          billingAddress
-          token={handleToken}
-        />
+      <div style={{ marginTop: '3.75rem' }}>
+        {
+          orders.length
+            ? (
+              <div>
+                <div className="box" style={{ height: '500px', overflowY: 'scroll' }}>
+                  <div className="container">
+                    <div className="card" style={{ backgroundColor: '#1030AD', boxShadow: 'none' }}>
+                      <div className="columns">
+                        <div className="column is-one-fifth">
+                          <p className="title is-5">Movie</p>
+                        </div>
+                        <div className="column is-one-fifth">
+                          <p className="title is-5">Quantity</p>
+                        </div>
+                        <div className="column is-one-fifth">
+                          <p className="title is-5">Price</p>
+                        </div>
+                        <div className="column is-one-fifth">
+                          <p className="title is-5">Edit Quantity</p>
+                        </div>
+                        <div className="column is-one-fifth" />
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  {
+          orderList
+          }
+                </div>
+                <div className="box column is-one-fifth">
+                  <p className="subtitle is-4">{`Your Total is ${total}`}</p>
+                </div>
+                <StripeCheckout
+                  stripeKey={PUBLISHING_KEY}
+                  amount={Number(total * 100)}
+                  shippingAddress
+                  billingAddress
+                  token={handleToken}
+                />
+              </div>
+            )
+            : (
+              <div>
+                <div className="box">
+                  <p className="title is-4">Nothing in your cart yet! Go buy some DVDs!</p>
+                </div>
+              </div>
+            )
+        }
+
       </div>
     );
   }
@@ -172,7 +195,7 @@ Cart.propTypes = {
   editCartQuantity: propTypes.func.isRequired,
   orders: propTypes.arrayOf(propTypes.object).isRequired,
   movies: propTypes.arrayOf(propTypes.object).isRequired,
-  total: propTypes.string.isRequired,
+  // total: propTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -186,3 +209,5 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+
+//

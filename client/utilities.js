@@ -145,5 +145,5 @@ export const orderParser = (orders) => {
     a.push(b);
     return a;
   }, []);
-  return parsed;
+  return parsed.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1));
 };

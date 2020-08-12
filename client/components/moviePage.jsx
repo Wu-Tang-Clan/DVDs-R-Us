@@ -174,7 +174,7 @@ class MoviePage extends Component {
                         <p className="subtitle is-5" style={{ marginTop: '20px' }}>
                           {`Price: $${parseFloat(movie.price).toFixed(2)}`}
                         </p>
-                        <input className="input" type="number" min="1" value={quantity} onChange={(e) => this.setState({ quantity: e.target.value })} />
+                        <input className="input" type="number" min="1" max={movie.stock} value={quantity} onChange={(e) => this.setState({ quantity: e.target.value })} />
                         <button style={{ margin: '10px' }} className="button brandButton" type="button" onClick={() => addToCart(movie.id, quantity, movie.title)}>Add To Cart</button>
                         <button style={{ margin: '10px' }} className="button brandButton" type="button">Add to Wishlist</button>
                       </div>
