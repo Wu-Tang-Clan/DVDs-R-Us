@@ -1,12 +1,11 @@
-//  Different from index.js file - we can use the Provider, BrowserRouter, Nav, Switch here
-import React, {
-} from 'react';
+import React from 'react';
 import {
   HashRouter, Route, Switch, Redirect,
 } from 'react-router-dom';
 import Alert from 'react-s-alert';
 import {
-  Nav, About, Search, Browse, MoviePage, Login, Admin, LogOut, Signup, UserAccount, Cart,
+  Nav, About, Search, Browse, MoviePage, Login, Admin, LogOut,
+  Signup, UserAccount, Cart, landingPage,
 } from './components/index';
 // eslint-disable-next-line import/no-named-as-default-member
 
@@ -29,6 +28,7 @@ const App = () => (
           <Route path="/signup" render={(props) => <Signup props={props} />} />
           <Route path="/cart" render={(props) => <Cart props={props} />} />
           <Route path="/useraccount" render={(props) => <UserAccount props={props} />} />
+          <Route path="/" component={landingPage} />
           <Redirect to="/" />
         </Switch>
       </div>

@@ -11,6 +11,7 @@ import LogOut from './logoutPage';
 import Signup from './signup';
 import UserAccount from './userAccount';
 import Cart from './cart';
+import landingPage from './landingPage';
 
 export {
   Nav,
@@ -24,4 +25,5 @@ export {
   Signup,
   UserAccount,
   Cart,
+  landingPage,
 };
