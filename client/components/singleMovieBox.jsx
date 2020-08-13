@@ -50,7 +50,7 @@ class SingleMovieBox extends Component {
                   {movie.runtime}
                 </p>
                 <p className="subtitle is-6" style={{ marginTop: '20px' }}>
-                  {`Price: $${parseFloat(movie.price).toFixed(2)}`}
+                  {`Price: $${movie.price}`}
                 </p>
               </div>
             </div>

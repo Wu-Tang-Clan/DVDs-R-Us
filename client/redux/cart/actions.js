@@ -20,7 +20,7 @@ export const addToCart = (movieId, quantity, title) => async (dispatch) => {
         dispatch({
           type: CART_TYPES.ADD_TO_CART,
           order: res.data,
-          price: Number((res.data.quantity * 0.99).toFixed(2)),
+          price: ((res.data.quantity * 99) / 100),
         });
         Alert.success(`${title} added to cart!`, {
           effect: 'slide',
@@ -38,13 +38,17 @@ export const getCartItems = () => async (dispatch) => {
         dispatch({
           type: CART_TYPES.GET_CART_ITEMS,
           orders: res.data,
-          total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
+          total: ((res.data.map((order) => order.quantity).reduce((a, b) => {
+            // eslint-disable-next-line no-param-reassign
+            a += (b * 99);
+            return a;
+          }, 0)) / 100),
         });
       } else {
         dispatch({
           type: CART_TYPES.GET_CART_ITEMS,
           orders: res.data,
-          total: Number(0),
+          total: 0,
         });
       }
     });
@@ -57,13 +61,17 @@ export const getActiveCartItems = () => async (dispatch) => {
         dispatch({
           type: CART_TYPES.GET_ACTIVE_CART_ITEMS,
           orders: res.data,
-          total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
+          total: ((res.data.map((order) => order.quantity).reduce((a, b) => {
+            // eslint-disable-next-line no-param-reassign
+            a += (b * 99);
+            return a;
+          }, 0)) / 100),
         });
       } else {
         dispatch({
           type: CART_TYPES.GET_ACTIVE_CART_ITEMS,
           orders: res.data,
-          total: Number(0),
+          total: 0,
         });
       }
     });
@@ -77,7 +85,11 @@ export const removeFromCart = (movieId, cartId, title) => async (dispatch) => {
         dispatch({
           type: CART_TYPES.REMOVE_FROM_CART,
           orders: res.data,
-          total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
+          total: ((res.data.map((order) => order.quantity).reduce((a, b) => {
+            // eslint-disable-next-line no-param-reassign
+            a += (b * 99);
+            return a;
+          }, 0)) / 100),
         });
         Alert.error(`${title} removed from cart`, {
           effect: 'slide',
@@ -87,7 +99,7 @@ export const removeFromCart = (movieId, cartId, title) => async (dispatch) => {
         dispatch({
           type: CART_TYPES.REMOVE_FROM_CART,
           orders: res.data,
-          total: Number(0),
+          total: 0,
         });
         Alert.error(`${title} removed from cart`, {
           effect: 'slide',
@@ -113,14 +125,17 @@ export const editCartQuantity = (movieId, cartId, quantity) => async (dispatch) 
             dispatch({
               type: CART_TYPES.EDIT_CART_QUANTITY,
               orders: res.data,
-              total: res.data.map((order) => Number(order.quantity))
-                .reduce((a, b) => a + (b * 0.99)),
+              total: ((res.data.map((order) => order.quantity).reduce((a, b) => {
+                // eslint-disable-next-line no-param-reassign
+                a += (b * 99);
+                return a;
+              }, 0)) / 100),
             });
           } else {
             dispatch({
               type: CART_TYPES.EDIT_CART_QUANTITY,
               orders: res.data,
-              total: Number(0),
+              total: 0,
             });
           }
         });
@@ -137,13 +152,15 @@ export const checkoutCart = () => async (dispatch) => {
         dispatch({
           type: CART_TYPES.CHECKOUT_CART,
           orders: [],
-          total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
+          // eslint-disable-next-line max-len
+          // total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
+          total: 0,
         });
       } else {
         dispatch({
           type: CART_TYPES.CHECKOUT_CART,
           orders: [],
-          total: Number(0),
+          total: 0,
         });
       }
     });
