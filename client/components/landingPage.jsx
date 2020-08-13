@@ -10,7 +10,7 @@ const landingPage = () => (
     <h3 className="dreams" style={{ marginTop: '8.00rem' }}>Only Playing</h3>
     <div className="box" style={{ marginTop: '13.5rem' }}>
       <p className="title is-5" style={{ color: 'white', textAlign: 'center' }}>
-        The days of "Please Rewind, Be Kind" are OVER
+        The days of "Be Kind, Rewind" are OVER
       </p>
       <p className="title is-4" style={{ color: 'white', textAlign: 'center' }}>
         This is DVD
