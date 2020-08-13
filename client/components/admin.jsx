@@ -88,7 +88,7 @@ class Admin extends Component {
     // console.log('INACTIVE ORDERS', inactiveOrders);
     console.log(this.props);
     return (
-      <div className="box">
+      <div style={{ marginTop: '3.75rem' }} className="box">
         <div className="columns is-multiline">
           <div className="column is-half">
             <label htmlFor="movieBox1" className="label">Movies In Stock</label>
@@ -257,10 +257,10 @@ class Admin extends Component {
                        <p>
                          {order.username}
                          : $
-                         {order.orders.reduce((a, b) => {
-                           a += (b.quantity * 0.99);
+                         {(order.orders.reduce((a, b) => {
+                           a += ((b.quantity * 99) / 100);
                            return a;
-                         }, 0)}
+                         }, 0)).toFixed(2)}
                        </p>
                        <p>{moment(order.checkoutTime).format('dddd, MMMM, Do YYYY')}</p>
                      </div>
@@ -286,7 +286,10 @@ class Admin extends Component {
                              <p>{ purchase.quantity}</p>
                            </div>
                            <div className="column is-third">
-                             <p>{ purchase.quantity * 0.99}</p>
+                             <p>
+                               $
+                               { ((purchase.quantity * 99) / 100).toFixed(2) }
+                             </p>
                            </div>
                          </div>
                        ))

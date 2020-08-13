@@ -93,7 +93,7 @@ class Cart extends Component {
               </div>
               <div className="column is-one-fifth">
                 <p className="subtitle is-6">
-                  {(order.quantity * movie[0].price).toFixed(2)}
+                  {((order.quantity * 99) / 100)}
                 </p>
               </div>
               <div className="column is-one-fifth">
@@ -162,7 +162,7 @@ class Cart extends Component {
           }
                 </div>
                 <div className="box column is-one-fifth">
-                  <p className="subtitle is-4">{`Your Total is ${total}`}</p>
+                  <p className="subtitle is-4">{`Your Total is ${total.toFixed(2)}`}</p>
                 </div>
                 <StripeCheckout
                   stripeKey={PUBLISHING_KEY}

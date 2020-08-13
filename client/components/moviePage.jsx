@@ -87,7 +87,7 @@ class MoviePage extends Component {
     const { quantity, userRating, userReview } = this.state;
     const { reviewSubmit } = this;
     return (
-      <div>
+      <div style={{ marginTop: '3.75rem ' }}>
         <div
           role="presentation"
           className="backLink"
@@ -172,7 +172,7 @@ class MoviePage extends Component {
                     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                       <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <p className="subtitle is-5" style={{ marginTop: '20px' }}>
-                          {`Price: $${parseFloat(movie.price).toFixed(2)}`}
+                          {`Price: $${movie.price}`}
                         </p>
                         <input className="input" type="number" min="1" max={movie.stock} value={quantity} onChange={(e) => this.setState({ quantity: e.target.value })} />
                         <button style={{ margin: '10px' }} className="button brandButton" type="button" onClick={() => addToCart(movie.id, quantity, movie.title)}>Add To Cart</button>

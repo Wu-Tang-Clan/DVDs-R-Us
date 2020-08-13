@@ -111,7 +111,7 @@ const Movie = db.define('movie', {
     },
   },
   price: {
-    type: DECIMAL,
+    type: DECIMAL(10, 2),
     allowNull: false,
     validate: {
       min: 0,
