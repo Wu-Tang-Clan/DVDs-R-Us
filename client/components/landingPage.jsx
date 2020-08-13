@@ -2,7 +2,10 @@
 import React from 'react';
 
 const landingPage = () => (
-  <div style={{ marginTop: '3.60rem', display: 'flex', flexDirection: 'column', background: 'black' }}>
+  <div style={{
+    marginTop: '3.60rem', display: 'flex', flexDirection: 'column', background: 'black',
+  }}
+  >
     <h1 className="chrome">No Rewinding</h1>
     <h3 className="dreams" style={{ marginTop: '8.00rem' }}>Only Playing</h3>
     <div className="box" style={{ marginTop: '13.5rem' }}>
