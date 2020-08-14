@@ -15,16 +15,16 @@ class UserAccount extends Component {
     username: '',
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const {
       getMovies,
       getUserPreviousReviews,
       loggedInUser,
       adminPreviousOrders,
     } = this.props;
-    await getUserPreviousReviews(loggedInUser.id);
-    await getMovies();
-    await adminPreviousOrders();
+    getUserPreviousReviews(loggedInUser.id);
+    getMovies();
+    adminPreviousOrders();
   }
 
   onSubmit = async (e) => {
@@ -126,13 +126,12 @@ class UserAccount extends Component {
                       <div className="box" key={order.inactiveId}>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                           <p>
-                            {order.username}
-                            : $
-                            {order.orders.reduce((a, b) => {
+                            Total: $
+                            {(order.orders.reduce((a, b) => {
                               // eslint-disable-next-line no-param-reassign
-                              a += (b.quantity * 0.99);
+                              a += ((b.quantity * 99) / 100);
                               return a;
-                            }, 0)}
+                            }, 0)).toFixed(2)}
                           </p>
                           <p>{moment(order.checkoutTime).format('dddd, MMMM, Do YYYY')}</p>
                         </div>
