@@ -1,6 +1,6 @@
 const imdb = require('imdb-api');
 const movieRouter = require('express').Router();
-const { Movie } = require('../../db/Models/index');
+const { Movie, Order, Review } = require('../../db/Models/index');
 require('dotenv').config();
 
 // // //  this will need to bring in the models
@@ -25,38 +25,46 @@ movieRouter.post('/imdbsearch', async (req, res) => {
 
 movieRouter.post('/order', async (req, res) => {
   const { id } = req.body;
-  const movie = await imdb.get({ id }, { apiKey: process.env.IMDB_API_KEY });
-  const newMovie = await Movie.create({
-    title: movie.title,
-    director: movie.director.split(', '),
-    actors: movie.actors.split(', '),
-    awards: movie.awards,
-    boxoffice: movie.boxoffice,
-    genres: movie.genres.split(', '),
-    id: movie.imdbid,
-    metascore: movie.metascore,
-    plot: movie.plot,
-    poster: movie.poster,
-    rated: movie.rated,
-    rating: movie.rating,
-    production: movie.production,
-    released: movie.released,
-    runtime: movie.runtime,
-    writer: movie.writer.split(', '),
-    year: movie.year,
-    price: 0.99,
-    stock: 50,
-  });
+  const checkMovie = await Movie.findAll({ where: { id } });
 
-  if (newMovie) {
-    res.send(newMovie);
+  if (checkMovie) {
+    res.sendStatus(204);
   } else {
-    res.sendStatus(400);
+    const movie = await imdb.get({ id }, { apiKey: process.env.IMDB_API_KEY });
+    const newMovie = await Movie.create({
+      title: movie.title,
+      director: movie.director.split(', '),
+      actors: movie.actors.split(', '),
+      awards: movie.awards,
+      boxoffice: movie.boxoffice,
+      genres: movie.genres.split(', '),
+      id: movie.imdbid,
+      metascore: movie.metascore,
+      plot: movie.plot,
+      poster: movie.poster,
+      rated: movie.rated,
+      rating: movie.rating,
+      production: movie.production,
+      released: movie.released,
+      runtime: movie.runtime,
+      writer: movie.writer.split(', '),
+      year: movie.year,
+      price: 0.99,
+      stock: 50,
+    });
+
+    if (newMovie) {
+      res.send(newMovie);
+    } else {
+      res.sendStatus(400);
+    }
   }
 });
 
 movieRouter.delete('/remove/:id', async (req, res) => {
   await Movie.destroy({ where: { id: req.params.id } });
+  await Order.destroy({ where: { movieId: req.params.id } });
+  await Review.destroy({ where: { movieId: req.params.id } });
   res.sendStatus(200);
 });
 

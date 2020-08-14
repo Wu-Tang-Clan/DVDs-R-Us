@@ -12,7 +12,6 @@ class Search extends Component {
     this.state = {
       searchTerm: '',
       searchCriteria: 'title',
-      searchedMovies: [],
     };
   }
 
@@ -24,34 +23,26 @@ class Search extends Component {
 
   render() {
     const { searchTerm, searchCriteria } = this.state;
-    console.log('this.state -- ', this.state);
-    console.log('this.props -- ', this.props);
     const { props } = this.props;
     let { movies } = this.props;
     movies = searchMovieFilter(movies, searchCriteria, 'A-Z', searchTerm);
-    console.log('after search movies are --- ', movies);
-    // movies = movieFilter(movies, searchCriteria, 'A-Z', searchTerm);
     return (
       <div>
         <div style={{ marginTop: '3.75rem' }} className="box">
           <div className="columns">
             <div className="column is-one-third" />
             <form className="column is-one-third">
-              <label className="label">
-                Search Term:
+              <div style={{ display: 'flex' }}>
                 <input
                   className="input"
                   id="searchTerm"
-
-                  placeholder="Enter Your Search Term Here"
+                  placeholder="Search"
                   value={searchTerm}
                   name="searchTerm"
                   onChange={(e) => this.setState({ searchTerm: e.target.value })}
                 />
-              </label>
-              <label className="label">
-                Search Criteria:
                 <select
+                  style={{ margin: '5px', boxShadow: '0 0.5em 1em -0.125em', borderRadius: '5px' }}
                   className="select brandButton"
                   value={searchCriteria}
                   id="searchCriteria"
@@ -101,7 +92,7 @@ class Search extends Component {
                     Year
                   </option>
                 </select>
-              </label>
+              </div>
             </form>
             <div className="column is-one-third" />
           </div>

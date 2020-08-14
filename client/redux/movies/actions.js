@@ -26,14 +26,21 @@ export const searchImdb = (searchInput) => async (dispatch) => {
 export const orderStock = (id, title) => async (dispatch) => {
   await axios.post('/api/movies/order', { id })
     .then((res) => {
-      dispatch({
-        type: MOVIE_TYPES.ORDER_STOCK,
-        movie: res.data,
-      });
-      Alert.success(`${title} added to inventory`, {
-        effect: 'jelly',
-        timeout: 1500,
-      });
+      if (res.status === 204) {
+        Alert.warning(`${title} is already in our inventory`, {
+          effect: 'slide',
+          timeout: 1500,
+        });
+      } else {
+        dispatch({
+          type: MOVIE_TYPES.ORDER_STOCK,
+          movie: res.data,
+        });
+        Alert.success(`${title} added to inventory`, {
+          effect: 'jelly',
+          timeout: 1500,
+        });
+      }
     });
 };
 
@@ -61,7 +68,3 @@ export const addStock = (id) => async (dispatch) => {
       });
     });
 };
-
-// export const addMovie = () => async () => {
-// //  action created to prevent linting error caused by not exporting default
-// };

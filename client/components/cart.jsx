@@ -20,6 +20,7 @@ const PUBLISHING_KEY = 'pk_test_51HC5PPIpeeFTP4XBYprFZCBhZtuaovgYyM6HCY5dOyE3vcB
 
 class Cart extends Component {
   async componentDidMount() {
+    window.scrollTo(0, 0);
     const {
       getCartItems, getMovies, getActiveCartItems, checkoutCart,
     } = this.props;
@@ -29,12 +30,13 @@ class Cart extends Component {
 
   handleToken = async (token) => {
     const { props: { history } } = this.props;
-    const { checkoutCart, getActiveCartItems } = this.props;
+    const { checkoutCart, getActiveCartItems, orders } = this.props;
     // eslint-disable-next-line prefer-destructuring
     const total = store.getState().cartReducer.total;
     const response = await axios.post('/api/cart/checkout', {
       token,
       total,
+      orders,
     });
     if (response.data === 'OK') {
       Alert.success('WHAM! Check your AOL acct for your itemized receipt.', {
@@ -44,8 +46,8 @@ class Cart extends Component {
       await checkoutCart();
       await getActiveCartItems();
       setTimeout(() => {
-        history.push('/');
-      }, 1000);
+        history.push('/browse');
+      }, 1500);
     } else {
       Alert.error('WOMP WOMP! Dude where\'s your car?! Better luck next time :)', {
         effect: 'slide',
@@ -68,13 +70,7 @@ class Cart extends Component {
   render() {
     const { orders, total, movies } = this.props;
     const { handleToken } = this;
-    // console.log('props', this.props);
-    // console.log('movies ', movies);
-    // console.log('CURRENT ORDERS', orders);
-    // console.log('total-- ', total);
     const parsedOrders = orderParser(orders);
-    // console.log('PARSED ORDERS', parsedOrders);
-
     const orderList = parsedOrders.map((order) => {
       const movie = movies.filter((movie) => movie.id === order.movieId);
       // console.log('single movie ', movie);
@@ -195,7 +191,6 @@ Cart.propTypes = {
   editCartQuantity: propTypes.func.isRequired,
   orders: propTypes.arrayOf(propTypes.object).isRequired,
   movies: propTypes.arrayOf(propTypes.object).isRequired,
-  // total: propTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -209,5 +204,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
-
-//

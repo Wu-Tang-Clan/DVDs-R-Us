@@ -5,14 +5,6 @@ import propTypes from 'prop-types';
 import { login } from '../redux/users/actions';
 
 class Login extends Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       username: '',
-//       password: '',
-//     };
-//     this.onSubmit = this.onSubmit.bind(this);
-//   }
   // eslint-disable-next-line react/state-in-constructor
   state = {
     username: '',
@@ -20,13 +12,11 @@ class Login extends Component {
   }
 
   onSubmit = async (e) => {
-    // console.log('submitting!!!!');
     e.preventDefault();
     const { username, password } = this.state;
     const {
       // eslint-disable-next-line no-shadow
       login,
-      // loggedIn,
       props: {
         history,
       },
@@ -71,10 +61,6 @@ class Login extends Component {
 
 Login.propTypes = {
   login: propTypes.func.isRequired,
-  // loggedIn: propTypes.bool.isRequired,
-  // props: propTypes.shape({
-  //   history: propTypes.object.isRequired,
-  // }),
 };
 
 const mapStateToProps = (state) => ({

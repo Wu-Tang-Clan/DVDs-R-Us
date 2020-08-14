@@ -6,10 +6,8 @@ import CART_TYPES from '../cart/types';
 const axios = require('axios');
 
 export const login = (username, password, history) => (dispatch) => {
-  // console.log('login function!!!');
   axios.post('/api/users/login', { username, password })
     .then(async (res) => {
-      // console.log('response', res.status);
       if (res.status === 200) {
         dispatch({
           type: USER_TYPES.LOGIN,
@@ -26,7 +24,6 @@ export const login = (username, password, history) => (dispatch) => {
           effect: 'slide',
           timeout: 1500,
         });
-        // alert('Your username or password was wrong :(');
       }
     })
     .catch((e) => {
@@ -89,7 +86,17 @@ export const submitReview = (review, rating, movieId) => (dispatch) => {
   axios.post('/api/users/review', { review, rating, movieId })
     .then((res) => {
       if (res.data) {
-        alert('Thank you for leaving a review!');
+        if (rating > 3) {
+          Alert.success('Thanks for the review! glad you thought that movie was da bomb!', {
+            effect: 'slide',
+            timeout: 1500,
+          });
+        } else {
+          Alert.success('Oh snap! Sorry you didn\'t like the movie!', {
+            effect: 'slide',
+            timeout: 1500,
+          });
+        }
         dispatch({
           type: USER_TYPES.LEAVE_REVIEW,
           review: res.data,

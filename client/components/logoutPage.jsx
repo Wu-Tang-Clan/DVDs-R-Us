@@ -13,14 +13,16 @@ class LogOut extends Component {
 
   render() {
     return (
-      <div style={{
-        display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px',
-      }}
-      >
-        <p className="title is-4">Thank you for Shopping!</p>
-        <p className="subtitle is-5">Redirecting you back to home...</p>
-        <div style={{ marginTop: '10px' }}>
-          <LoopCircleLoading style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} />
+      <div className="box" style={{ marginTop: '3.75rem', height: '200px' }}>
+        <div style={{
+          display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px',
+        }}
+        >
+          <p className="title is-4">Boo ya! Thanks for stopping by!</p>
+          <p className="subtitle is-5">Redirecting you back to home...</p>
+          <div style={{ marginTop: '10px' }}>
+            <LoopCircleLoading style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} />
+          </div>
         </div>
       </div>
     );
