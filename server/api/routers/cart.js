@@ -221,7 +221,7 @@ cartRouter.put('/checkoutCart', async (req, res) => {
 cartRouter.post('/checkout', async (req, res) => {
   // console.log(req.body);
   try {
-    const { token, total } = req.body;
+    const { token, total, orders } = req.body;
     const customer = await stripe.customers.create({
       email: token.email,
       source: token.id,
@@ -232,9 +232,9 @@ cartRouter.post('/checkout', async (req, res) => {
         amount: total * 100,
         currency: 'usd',
         customer: customer.id,
+        receipt_email: token.email,
+        description: orders.map((order) => `${order.name} (${order.quantity})`).join(', '),
       },
-      //   receipt_email: token.email,
-      //   description: 'ur fave bloccbuster dvds yummmm',
       //   shipping: {
       //     name: token.card.name,
       //     address: {

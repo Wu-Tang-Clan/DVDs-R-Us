@@ -20,7 +20,8 @@ class Admin extends Component {
     stockSearch: '',
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    window.scrollTo(0, 0);
     // eslint-disable-next-line no-shadow
     const {
       getMovies, getUsers, adminPreviousOrders, movies,
@@ -58,14 +59,12 @@ class Admin extends Component {
     const { orderStock } = this.props;
     await orderStock(e.target.value, title);
     // eslint-disable-next-line no-alert
-    // alert('Movie is now added to inventory!');
   }
 
   handleRemoveMovie = async (e, title) => {
     // eslint-disable-next-line no-shadow
     const { removeMovie } = this.props;
     await removeMovie(e.target.value, title);
-    // eslint-disable-next-line no-alert
   };
 
   toggleAdminRole = async (userId, userName, isAdmin) => {
@@ -76,7 +75,6 @@ class Admin extends Component {
 
   render() {
     const { searchInput, stockSearch } = this.state;
-    // console.log(stockSearch);
     const {
       handleSubmit, handleOrder, handleRemoveMovie, toggleAdminRole,
     } = this;
@@ -85,14 +83,12 @@ class Admin extends Component {
     } = this.props;
     let { movies } = this.props;
     movies = adminInventoryFilter(movies, stockSearch);
-    // console.log('INACTIVE ORDERS', inactiveOrders);
-    console.log(this.props);
     return (
       <div style={{ marginTop: '3.75rem' }} className="box">
         <div className="columns is-multiline">
           <div className="column is-half">
-            <label htmlFor="movieBox1" className="label">Movies In Stock</label>
-            <input onChange={(e) => this.setState({ stockSearch: e.target.value })} value={stockSearch} type="input" placeholder="Search Inventory" className="input" />
+            <label htmlFor="movieBox1" className="label title is-4">Movies In Stock</label>
+            <input onChange={(e) => this.setState({ stockSearch: e.target.value })} value={stockSearch} style={{ marginBottom: '5px' }} type="input" placeholder="Search Inventory" className="input" />
             <div id="movieBox1" className="adminBox">
               {
               movies
@@ -152,7 +148,7 @@ class Admin extends Component {
               <form onSubmit={handleSubmit}>
                 <div className="field">
                   <div className="control">
-                    <label className="label" htmlFor="imdbSearch">Add New Movies</label>
+                    <label className="label title is-4" htmlFor="imdbSearch">Add New Movies</label>
                     <input
                       id="imdbSearch"
                       onChange={(e) => this.setState({ searchInput: e.target.value })}
@@ -166,7 +162,6 @@ class Admin extends Component {
                 </div>
                 <button
                   type="submit"
-                  style={{ margin: '10px' }}
                   className="button brandButton"
                 >
                   Search
@@ -194,7 +189,7 @@ class Admin extends Component {
                           </p>
                         </div>
                         <div className="column is-one-quarter">
-                          <button onClick={(e) => handleOrder(e, movie.title)} className="button is-link" type="button" value={movie.imdbid}>Order Stock</button>
+                          <button onClick={(e) => handleOrder(e, movie.title)} className="button brandButton" type="button" value={movie.imdbid}>Order Stock</button>
                         </div>
                       </div>
                     </div>
@@ -251,32 +246,34 @@ class Admin extends Component {
             <div className="adminBox">
               {
                inactiveOrders.length
-                 ? inactiveOrders.map((order) => (
-                   <div className="box" key={order.inactiveId}>
-                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                       <p>
-                         {order.username}
-                         : $
-                         {(order.orders.reduce((a, b) => {
-                           a += ((b.quantity * 99) / 100);
-                           return a;
-                         }, 0)).toFixed(2)}
-                       </p>
-                       <p>{moment(order.checkoutTime).format('dddd, MMMM, Do YYYY')}</p>
-                     </div>
-                     <hr />
-                     <div className="columns">
-                       <div className="column is-third">
-                         <p style={{ textDecoration: 'underline' }}>Title</p>
+                 ? inactiveOrders
+                   .sort((a, b) => (a.checkoutTime < b.checkoutTime ? 1 : -1))
+                   .map((order) => (
+                     <div className="box" key={order.inactiveId}>
+                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                         <p>
+                           {order.username}
+                           : $
+                           {(order.orders.reduce((a, b) => {
+                             a += ((b.quantity * 99) / 100);
+                             return a;
+                           }, 0)).toFixed(2)}
+                         </p>
+                         <p>{moment(order.checkoutTime).format('dddd, MMMM, Do YYYY')}</p>
                        </div>
-                       <div className="column is-third">
-                         <p style={{ textDecoration: 'underline' }}>Quantity</p>
+                       <hr />
+                       <div className="columns">
+                         <div className="column is-third">
+                           <p style={{ textDecoration: 'underline' }}>Title</p>
+                         </div>
+                         <div className="column is-third">
+                           <p style={{ textDecoration: 'underline' }}>Quantity</p>
+                         </div>
+                         <div className="column is-third">
+                           <p style={{ textDecoration: 'underline' }}>Price</p>
+                         </div>
                        </div>
-                       <div className="column is-third">
-                         <p style={{ textDecoration: 'underline' }}>Price</p>
-                       </div>
-                     </div>
-                     {
+                       {
                        order.orders.map((purchase) => (
                          <div key={purchase.id} className="columns">
                            <div className="column is-third">
@@ -294,8 +291,8 @@ class Admin extends Component {
                          </div>
                        ))
                      }
-                   </div>
-                 ))
+                     </div>
+                   ))
                  : null
              }
             </div>

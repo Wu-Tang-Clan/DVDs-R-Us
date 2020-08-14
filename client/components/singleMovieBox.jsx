@@ -43,10 +43,12 @@ class SingleMovieBox extends Component {
               <div className="control">
                 <p className="subtitle is-6" style={{ marginTop: '20px' }}>
                   Starring:
+                  {' '}
                   {movie.actors.join(', ')}
                 </p>
                 <p className="subtitle is-6" style={{ marginTop: '20px' }}>
                   Runtime:
+                  {' '}
                   {movie.runtime}
                 </p>
                 <p className="subtitle is-6" style={{ marginTop: '20px' }}>
@@ -59,9 +61,10 @@ class SingleMovieBox extends Component {
           <div className="column is-one-fifth">
             <div className="field">
               <div className="control">
-                <div className="select">
+                <div>
                   <input
-                    style={{ margin: '10px' }}
+                    style={{ width: '70px' }}
+                    className="input"
                     type="number"
                     min="1"
                     max={movie.stock}
@@ -79,14 +82,12 @@ class SingleMovieBox extends Component {
             </div>
             <button
               type="submit"
-              style={{ margin: '10px' }}
+              // style={{ margin: '10px' }}
               className="button brandButton"
               onClick={() => addToCart(movie.id, quantity, movie.title)}
             >
               Add To Cart
             </button>
-            <button type="submit" style={{ margin: '10px' }} className="button brandButton">Add to Wishlist</button>
-
           </div>
         </div>
       </div>

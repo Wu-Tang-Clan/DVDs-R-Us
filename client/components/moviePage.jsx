@@ -88,21 +88,11 @@ class MoviePage extends Component {
     const { reviewSubmit } = this;
     return (
       <div style={{ marginTop: '3.75rem ' }}>
-        <div
-          role="presentation"
-          className="backLink"
-          onClick={() => history.goBack()}
-          onKeyDown={() => history.goBack()}
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            margin: '5px',
-          }}
-        >
-          <li className="fa fa-backward" aria-hidden="true" />
-          <p>Back</p>
-        </div>
+        <button style={{ margin: '5px 0px' }} className="button brandButton" type="button" onClick={() => history.goBack()}>
+          <li className=" fa fa-backward" />
+          {' '}
+          Back
+        </button>
         {
           (movie)
             ? (
@@ -136,12 +126,14 @@ class MoviePage extends Component {
                         ? (
                           <p className="title is-6" style={{ marginTop: '20px' }}>
                             Directors:
+                            {' '}
                             { movie.director.join(', ')}
                           </p>
                         )
                         : (
                           <p className="title is-6" style={{ marginTop: '20px' }}>
                             Director:
+                            {' '}
                             { movie.director.join(', ')}
                           </p>
                         )
@@ -151,32 +143,35 @@ class MoviePage extends Component {
                         ? (
                           <p className="title is-6" style={{ marginTop: '20px' }}>
                             Writers:
+                            {' '}
                             { movie.writer.join(', ')}
                           </p>
                         )
                         : (
                           <p className="title is-6" style={{ marginTop: '20px' }}>
                             Writer:
+                            {' '}
                             { movie.writer.join(', ')}
                           </p>
                         )
                     }
                     <p className="title is-6" style={{ marginTop: '20px' }}>
                       Starring:
+                      {' '}
                       {movie.actors.join(', ')}
                     </p>
                     <p className="title is-6" style={{ marginTop: '20px' }}>
                       Runtime:
+                      {' '}
                       {movie.runtime}
                     </p>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
                       <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <p className="subtitle is-5" style={{ marginTop: '20px' }}>
                           {`Price: $${movie.price}`}
                         </p>
-                        <input className="input" type="number" min="1" max={movie.stock} value={quantity} onChange={(e) => this.setState({ quantity: e.target.value })} />
-                        <button style={{ margin: '10px' }} className="button brandButton" type="button" onClick={() => addToCart(movie.id, quantity, movie.title)}>Add To Cart</button>
-                        <button style={{ margin: '10px' }} className="button brandButton" type="button">Add to Wishlist</button>
+                        <input style={{ width: '70px' }} className="input" type="number" min="1" max={movie.stock} value={quantity} onChange={(e) => this.setState({ quantity: e.target.value })} />
+                        <button style={{ margin: '10px 0px' }} className="button brandButton" type="button" onClick={() => addToCart(movie.id, quantity, movie.title)}>Add To Cart</button>
                       </div>
                     </div>
                   </div>
@@ -216,7 +211,7 @@ class MoviePage extends Component {
                               </div>
                               <div className="field">
                                 <div className="control">
-                                  <button disabled={!userReview} className="button is-link" type="submit">Submit</button>
+                                  <button disabled={!userReview} className="button brandButton" type="submit">Submit</button>
                                 </div>
                               </div>
                             </form>

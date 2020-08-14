@@ -32,7 +32,6 @@ class Nav extends Component {
         <nav
           style={{
             backgroundColor: '#1030AD',
-            // backgroundColor: 'transparent',
             color: '#ffcc00',
             width: '100%',
           }}
@@ -75,7 +74,6 @@ class Nav extends Component {
               <Link to="/about" className="navbar-item">
                 About
               </Link>
-              {/* <a className="navbar-item" href="#/about">About</a> */}
               <Link to="/search" className="navbar-item">
                 <i style={{ marginRight: '5px' }} className="fa fa-search" />
                 Search
@@ -89,11 +87,6 @@ class Nav extends Component {
                 {' '}
                 Cart
               </Link>
-              {loggedInUser.isAdmin ? (
-                <Link className="navbar-item" to={`/admin/${loggedInUser.id}`}>
-                  Admin
-                </Link>
-              ) : null}
               {loggedIn ? (
                 <Link
                   className="navbar-item"
@@ -101,6 +94,11 @@ class Nav extends Component {
                 >
                   <i style={{ marginRight: '5px' }} className="fa fa-address-card" />
                   My Account
+                </Link>
+              ) : null}
+              {loggedInUser.isAdmin ? (
+                <Link className="navbar-item" to={`/admin/${loggedInUser.id}`}>
+                  Admin
                 </Link>
               ) : null}
             </div>
@@ -160,7 +158,6 @@ class Nav extends Component {
 
 Nav.propTypes = {
   loggedIn: propTypes.bool.isRequired,
-  // loggedInUser: propTypes.shape({ username: propTypes.string.isRequired }).isRequired,
   loggedInUser: propTypes.shape({}).isRequired,
   loginCheck: propTypes.func.isRequired,
   logOut: propTypes.func.isRequired,

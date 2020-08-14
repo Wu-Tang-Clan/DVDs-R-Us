@@ -144,7 +144,6 @@ export const editCartQuantity = (movieId, cartId, quantity) => async (dispatch) 
 };
 
 export const checkoutCart = () => async (dispatch) => {
-  console.log('checkoutCart called');
   await axios.put('/api/cart/checkoutCart')
     .then((res) => {
       // console.log('CHECKOUT', res);
@@ -153,7 +152,6 @@ export const checkoutCart = () => async (dispatch) => {
           type: CART_TYPES.CHECKOUT_CART,
           orders: [],
           // eslint-disable-next-line max-len
-          // total: res.data.map((order) => Number(order.quantity)).reduce((a, b) => a + (b * 0.99)),
           total: 0,
         });
       } else {

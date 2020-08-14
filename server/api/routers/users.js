@@ -4,9 +4,6 @@ const {
   User, Session, Review, Cart, Order,
 } = require('../../db/Models/index');
 
-// // //  this will need to bring in the models
-// // //  API routes will be in the form of: "userRouter.get()"
-
 userRouter.get('/', async (req, res) => {
   if (req.user && req.user.isAdmin) {
     const users = await User.findAll();
@@ -51,7 +48,7 @@ userRouter.post('/login', async (req, res) => {
         }
         await res.status(200).send(user);
       } else {
-        res.sendStatus(400);
+        res.sendStatus(204);
       }
     });
   }

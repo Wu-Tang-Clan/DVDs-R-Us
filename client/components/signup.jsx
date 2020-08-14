@@ -66,7 +66,7 @@ class Signup extends Component {
                 User created successfully
               </div>
             ) : userExists === true ? (
-              <div style={{ width: '100%', textAlign: 'center' }}>
+              <div style={{ width: '100%', textAlign: 'center', color: 'red' }}>
                 Username already exists! Please try again.
               </div>
             ) : (
