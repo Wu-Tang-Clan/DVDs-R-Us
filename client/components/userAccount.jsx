@@ -4,8 +4,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import moment from 'moment';
 import { changeUserName, getUserPreviousReviews } from '../redux/users/actions';
 import { getMovies } from '../redux/movies/actions';
+import { adminPreviousOrders } from '../redux/cart/actions';
 
 class UserAccount extends Component {
   // eslint-disable-next-line react/state-in-constructor
@@ -13,10 +15,16 @@ class UserAccount extends Component {
     username: '',
   }
 
-  async componentDidMount() {
-    const { getMovies, getUserPreviousReviews, loggedInUser } = this.props;
-    await getUserPreviousReviews(loggedInUser.id);
-    await getMovies();
+  componentDidMount() {
+    const {
+      getMovies,
+      getUserPreviousReviews,
+      loggedInUser,
+      adminPreviousOrders,
+    } = this.props;
+    getUserPreviousReviews(loggedInUser.id);
+    getMovies();
+    adminPreviousOrders();
   }
 
   onSubmit = async (e) => {
@@ -37,7 +45,7 @@ class UserAccount extends Component {
   render() {
     const { username } = this.state;
     const { onSubmit } = this;
-    const { userPreviousReviews } = this.props;
+    const { userPreviousReviews, inactiveOrders, loggedInUser } = this.props;
     const { movies } = this.props;
     return (
       <div>
@@ -96,8 +104,8 @@ class UserAccount extends Component {
                           <div className="column is-one-quarter">
                             <p className="title is-6">
                               {
-                    [...Array(review.rating)].map((i, idx) => <i style={{ marginLeft: '5px' }} key={idx} className="fa fa-star" />)
-                  }
+                                [...Array(review.rating)].map((i, idx) => <i style={{ marginLeft: '5px' }} key={idx} className="fa fa-star" />)
+                              }
                             </p>
                           </div>
                         </div>
@@ -105,6 +113,62 @@ class UserAccount extends Component {
                     );
                   })
                   : null}
+              </div>
+            </div>
+            <div className="column is-half">
+              <p className="title is-4">My Previous Orders</p>
+              <div id="prevUserOrderBox" className="adminBox">
+                {
+                  // console.log(inactiveOrders)
+                  inactiveOrders.length
+                    // eslint-disable-next-line max-len
+                    ? inactiveOrders.filter((order) => order.username === loggedInUser.username).map((order) => (
+                      <div className="box" key={order.inactiveId}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <p>
+                            Total: $
+                            {(order.orders.reduce((a, b) => {
+                              // eslint-disable-next-line no-param-reassign
+                              a += ((b.quantity * 99) / 100);
+                              return a;
+                            }, 0)).toFixed(2)}
+                          </p>
+                          <p>{moment(order.checkoutTime).format('dddd, MMMM, Do YYYY')}</p>
+                        </div>
+                        <hr />
+                        <div className="columns">
+                          <div className="column is-third">
+                            <p style={{ textDecoration: 'underline' }}>Title</p>
+                          </div>
+                          <div className="column is-third">
+                            <p style={{ textDecoration: 'underline' }}>Quantity</p>
+                          </div>
+                          <div className="column is-third">
+                            <p style={{ textDecoration: 'underline' }}>Price</p>
+                          </div>
+                        </div>
+                        {
+                          order.orders.map((purchase) => (
+                            <div key={purchase.id} className="columns">
+                              <div className="column is-third">
+                                <p>{ purchase.name }</p>
+                              </div>
+                              <div className="column is-third">
+                                <p>{ purchase.quantity }</p>
+                              </div>
+                              <div className="column is-third">
+                                <p>
+                                  $
+                                  { (purchase.quantity * 99) / 100 }
+                                </p>
+                              </div>
+                            </div>
+                          ))
+                        }
+                      </div>
+                    ))
+                    : 'Previous orders? As if!'
+                }
               </div>
             </div>
           </div>
@@ -120,6 +184,8 @@ UserAccount.propTypes = {
   loggedInUser: propTypes.shape({}).isRequired,
   getMovies: propTypes.func.isRequired,
   movies: propTypes.arrayOf(propTypes.object).isRequired,
+  adminPreviousOrders: propTypes.func.isRequired,
+  inactiveOrders: propTypes.arrayOf(propTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -127,9 +193,14 @@ const mapStateToProps = (state) => ({
   users: state.userReducer.users,
   movies: state.movieReducer.movies,
   userPreviousReviews: state.userReducer.userPreviousReviews,
-
+  inactiveOrders: state.cartReducer.inactiveOrders,
 });
 
-const mapDispatchToProps = { changeUserName, getUserPreviousReviews, getMovies };
+const mapDispatchToProps = {
+  changeUserName,
+  getUserPreviousReviews,
+  getMovies,
+  adminPreviousOrders,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserAccount);
