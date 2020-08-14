@@ -19,12 +19,19 @@ class UserAccount extends Component {
     const {
       getMovies,
       getUserPreviousReviews,
-      loggedInUser,
+      // loggedInUser,
       adminPreviousOrders,
+      props: {
+        match: {
+          params: {
+            id,
+          },
+        },
+      },
     } = this.props;
-    getUserPreviousReviews(loggedInUser.id);
     getMovies();
     adminPreviousOrders();
+    getUserPreviousReviews(id);
   }
 
   onSubmit = async (e) => {
@@ -64,7 +71,7 @@ class UserAccount extends Component {
                 />
               </label>
 
-              <button className="button brandButton" type="submit">Change UserName</button>
+              <button className="button brandButton" type="submit">Change Username</button>
             </form>
             <div className="column is-one-third" />
           </div>
@@ -75,7 +82,7 @@ class UserAccount extends Component {
             <div className="column is-half">
               <p className="title is-4">My Previous Reviews</p>
               <div id="movieBox1" className="adminBox">
-                {userPreviousReviews && userPreviousReviews.length !== 0
+                {userPreviousReviews.length && movies.length
                   ? userPreviousReviews.map((review) => {
                     const movie = movies.find((movie) => movie.id === review.movieId);
                     return (
