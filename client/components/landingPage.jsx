@@ -1,14 +1,21 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
+import Bounce from 'react-reveal/Bounce';
+import insideBlockbuster from '../assets/images/insideBlockbuster.jpg';
 
 const landingPage = () => (
-  <div style={{
-    marginTop: '3.60rem', display: 'flex', flexDirection: 'column', background: 'black',
-  }}
+  <div
+    className="box"
+    style={{ marginTop: '3.75rem' }}
   >
-    <h1 className="chrome">No Rewinding</h1>
-    <h3 className="dreams" style={{ marginTop: '8.00rem' }}>Only Playing</h3>
-    <div className="box" style={{ marginTop: '13.5rem' }}>
+    <Bounce left>
+      <h1 className="chrome">No Rewinding</h1>
+    </Bounce>
+    {/* <h3 className="dreams">Only Playing</h3> */}
+    <figure className="image is-128by128">
+      <img style={{ padding: '75px' }} src={insideBlockbuster} alt="inside-blockbuster" />
+    </figure>
+    <div className="box">
       <p className="title is-5" style={{ color: 'white', textAlign: 'center' }}>
         The days of "Be Kind, Rewind" are OVER
       </p>

@@ -169,7 +169,7 @@ p {
   top: 0;
   -webkit-background-clip: text;
   -webkit-text-stroke: 0;
-  padding-right: 300px;
+  /* padding-right: 300px; */
   -webkit-animation-name: chrome_effect;
   -webkit-animation-duration: 6s;
   -webkit-animation-delay: 2s;
@@ -178,16 +178,16 @@ p {
 }
 
 .dreams {
-  position: absolute;
-  margin: 0px;
+  /* position: absolute; */
+  /* margin: 0px; */
   font-family: 'Helvetica', cursive;
   font-size: 100px;
   color: rgb(75, 127, 223) ;
   transform:rotate(-15deg);
   -ms-transform:rotate(-15deg); /* IE 9 */
   -webkit-transform:rotate(-15deg); /* Safari and Chrome */
-  margin-left: 400px;
-  margin-top: -120px;
+  /* margin-left: 400px; */
+  /* margin-top: -120px; */
   -webkit-text-stroke: 1px #ffcc00;
   -webkit-filter: drop-shadow(2px 2px 20px #ffcc00);
   z-index: 20;
