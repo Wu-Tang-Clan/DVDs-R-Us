@@ -1,0 +1,277 @@
+/* eslint-disable react/state-in-constructor */
+/* eslint-disable no-shadow */
+/* eslint-disable react/no-array-index-key */
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
+import { getMovies } from '../redux/movies/actions';
+import { loginCheck, submitReview, getReviews } from '../redux/users/actions';
+import ReviewList from './reviewList';
+import { addToCart } from '../redux/cart/actions';
+
+class MoviePage extends Component {
+  state = {
+    quantity: 1,
+    userRating: 1,
+    userReview: '',
+  }
+
+  componentDidMount() {
+    window.scroll(0, 0);
+    const {
+      props: {
+        match: {
+          params: {
+            id,
+          },
+        },
+      },
+    } = this.props;
+    this.props.getMovies();
+    this.props.loginCheck();
+    this.props.getReviews(id);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  async componentDidUpdate(prevProps, prevState) {
+    const {
+      getReviews,
+      props: {
+        match: {
+          params: {
+            id,
+          },
+        },
+      },
+    } = this.props;
+    if (prevProps.currentMovieReviews.length !== this.props.currentMovieReviews.length) {
+      await getReviews(id);
+    }
+  }
+
+  reviewSubmit = async (e) => {
+    e.preventDefault();
+    const {
+      submitReview,
+      props: {
+        match: {
+          params: {
+            id,
+          },
+        },
+      },
+    } = this.props;
+    const { userReview, userRating } = this.state;
+    this.setState({
+      userReview: '',
+      userRating: 1,
+    });
+    await submitReview(userReview, userRating, id);
+  }
+
+  render() {
+    const {
+      movies,
+      loggedIn,
+      currentMovieReviews, addToCart,
+      props: {
+        history,
+        match: {
+          params: {
+            id,
+          },
+        },
+      },
+    } = this.props;
+
+    const movie = movies.find((selectedMovie) => selectedMovie.id === id);
+    const { quantity, userRating, userReview } = this.state;
+    const { reviewSubmit } = this;
+    return (
+      <div style={{ marginTop: '3.75rem ' }}>
+        <button style={{ margin: '5px 0px' }} className="button brandButton" type="button" onClick={() => history.goBack()}>
+          <li className=" fa fa-backward" />
+          {' '}
+          Back
+        </button>
+        {
+          (movie)
+            ? (
+              <div className="box">
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <p className="title is-3">
+                    {movie.title}
+                    {' '}
+                    (
+                    {movie.year}
+                    )
+                  </p>
+                  <p className="title is-4">
+                    Rating
+                    {' '}
+                    { movie.rating }
+                  </p>
+                </div>
+                <div className="columns is-multiline">
+                  <div className="column is-one-third">
+                    <figure className="image is=4by5">
+                      <img src={movie.poster} alt={`${movie.name} Poster`} />
+                    </figure>
+                  </div>
+                  <div className="column is-two-thirds">
+                    <p className="is-italic">
+                      {`"${movie.plot}"`}
+                    </p>
+                    {
+                      (movie.director.length > 1)
+                        ? (
+                          <p className="title is-6" style={{ marginTop: '20px' }}>
+                            Directors:
+                            {' '}
+                            { movie.director.join(', ')}
+                          </p>
+                        )
+                        : (
+                          <p className="title is-6" style={{ marginTop: '20px' }}>
+                            Director:
+                            {' '}
+                            { movie.director.join(', ')}
+                          </p>
+                        )
+                    }
+                    {
+                      (movie.writer.length > 1)
+                        ? (
+                          <p className="title is-6" style={{ marginTop: '20px' }}>
+                            Writers:
+                            {' '}
+                            { movie.writer.join(', ')}
+                          </p>
+                        )
+                        : (
+                          <p className="title is-6" style={{ marginTop: '20px' }}>
+                            Writer:
+                            {' '}
+                            { movie.writer.join(', ')}
+                          </p>
+                        )
+                    }
+                    <p className="title is-6" style={{ marginTop: '20px' }}>
+                      Starring:
+                      {' '}
+                      {movie.actors.join(', ')}
+                    </p>
+                    <p className="title is-6" style={{ marginTop: '20px' }}>
+                      Runtime:
+                      {' '}
+                      {movie.runtime}
+                    </p>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <p className="subtitle is-5" style={{ marginTop: '20px' }}>
+                          {`Price: $${movie.price}`}
+                        </p>
+                        <input style={{ width: '70px' }} className="input" type="number" min="1" max={movie.stock} value={quantity} onChange={(e) => this.setState({ quantity: e.target.value })} />
+                        <button style={{ margin: '10px 0px' }} className="button brandButton" type="button" onClick={() => addToCart(movie.id, quantity, movie.title)}>Add To Cart</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="column is-half">
+                    {
+                      loggedIn
+                        ? (
+                          <div className="field" style={{ display: 'flex', flexDirection: 'column' }}>
+                            <div className="control">
+                              <p className="title is-5">Leave a review</p>
+                              <div style={{ display: 'flex' }}>
+                                <select
+                                  className="select"
+                                  value={userRating}
+                                  onChange={(e) => this.setState({
+                                    userRating: Number(e.target.value),
+                                  })}
+                                >
+                                  <option value={1}>1</option>
+                                  <option value={2}>2</option>
+                                  <option value={3}>3</option>
+                                  <option value={4}>4</option>
+                                  <option value={5}>5</option>
+                                </select>
+                                <p className="title is-6">
+                                  {userRating}
+                                  /5
+                                </p>
+                                <i className="fa fa-star" />
+                              </div>
+                            </div>
+                            <form onSubmit={reviewSubmit}>
+                              <div className="field">
+                                <div className="control">
+                                  <textarea onChange={(e) => this.setState({ userReview: e.target.value })} value={userReview} className="textarea" placeholder="What did you think of this movie?" />
+                                </div>
+                              </div>
+                              <div className="field">
+                                <div className="control">
+                                  <button disabled={!userReview} className="button brandButton" type="submit">Submit</button>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        )
+                        : (
+                          <div>
+                            <p className="title is-5">Sign up or login to leave a review</p>
+                          </div>
+                        )
+                    }
+                  </div>
+                  <div className="column is-half">
+                    <div className="adminBox">
+                      {
+                        currentMovieReviews.length
+                          ? <ReviewList reviews={currentMovieReviews} />
+                          : <p className="subtitle is-6">No reviews yet...</p>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+            : null
+        }
+      </div>
+    );
+  }
+}
+
+MoviePage.propTypes = {
+  getMovies: propTypes.func.isRequired,
+  loginCheck: propTypes.func.isRequired,
+  submitReview: propTypes.func.isRequired,
+  currentMovieReviews: propTypes.arrayOf(propTypes.object).isRequired,
+  getReviews: propTypes.func.isRequired,
+  addToCart: propTypes.func.isRequired,
+  loggedIn: propTypes.bool.isRequired,
+  movies: propTypes.arrayOf(propTypes.object).isRequired,
+  props: propTypes.shape({
+    history: propTypes.isRequired,
+    match: propTypes.shape({
+      params: propTypes.shape({
+        id: propTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+    // history: propTypes.objectOf().isRequired,
+  }).isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  movies: state.movieReducer.movies,
+  loggedIn: state.userReducer.loggedIn,
+  currentMovieReviews: state.userReducer.currentMovieReviews,
+});
+
+const mapDispatchToProps = {
+  getMovies, loginCheck, submitReview, getReviews, addToCart,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoviePage);

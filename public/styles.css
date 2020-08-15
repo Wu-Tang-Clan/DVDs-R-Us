@@ -1,0 +1,240 @@
+body, html {
+    /* font-family: verdana; */
+    height: 100%;
+    background-image: url('https://i.pinimg.com/originals/e9/7b/ab/e97bab7d177c3a4807c9ae8a61c799bc.jpg');
+}
+
+.subtitle {
+    color: white;
+}
+.navDiv {
+    display: flex;
+    justify-content: space-around;
+    color: white !important;
+    background-color: dodgerblue;
+    align-items: center;
+    height: 50px;
+}
+
+a {
+    background-color: transparent;
+}
+
+p {
+    color: white;
+}
+
+.label {
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+
+.navbar-menu {
+    background-color: #1030AD;
+}
+
+.navbar-item {
+    background-color: #1030AD;
+    color: #ffcc00;
+}
+
+/* .navbar-item:hover {
+    background-color: #ffcc00;
+    color: #1030AD;
+} */
+
+.box {
+    background-color: #1030AD;
+    border: 3px solid #ffcc00;
+}
+
+.navbar-burger {
+    color: #ffcc00;
+}
+
+.navbar-burger:hover {
+    color: #ffcc00;
+}
+
+.button, .is-link {
+    color: #ffcc00;
+}
+.outerBox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+}
+
+.innerBox {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border: 1px solid black;
+    align-items: center;
+    border-radius: 5%;
+    width: 25%;
+    height: 25%;
+    margin: 3px;
+    padding: 3px;
+}
+
+.navLink:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.adminBox {
+    height: 500px;
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    overflow-y: scroll;
+}
+
+.reviewBox {
+    height: 300px;
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    overflow-y: scroll;
+}
+
+.brandButton {
+    background-color: #ffcc00;
+    color: #1030AD;
+}
+
+.brandSelected {
+    background-color: #ffcc00;
+    color: #1030AD;
+    box-shadow: 0px 0px 10px white;
+}
+
+.button:hover {
+    transform: scale(1.05);
+    color: #1030AD;
+}
+
+.titleLink {
+    color: white;
+    font-size: 20px;
+    text-shadow: 1px 1px 2px black;
+}
+
+.titleLink:hover {
+    color: #ffcc00;
+    text-decoration: underline;
+}
+
+.title {
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+ 
+.fa-star {
+    color: yellow;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Mr+Dafoe);
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web:900);
+@import url(https://fonts.googleapis.com/css?family=Righteous);
+@import url(https://fonts.googleapis.com/css?family=Candal);
+
+@import url(https://fonts.googleapis.com/css?family=Permanent+Marker);
+
+@import url(https://fonts.googleapis.com/css?family=Monoton);
+
+
+/* body { background: #000; color: #fff; position: relative;} */
+
+.chrome {
+  display:flex;
+  justify-content: center;  
+  background-image: -webkit-linear-gradient(#378DBC 0%, #B6E8F1 46%, #ffffff 50%, #32120E 54%, #FFC488 58%, #582C11 90%, #EC9B4E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 4px #f5f5f5;
+  font-size: 100px;
+  font-family: 'Titillium Web', sans-serif;
+  font-style: italic;
+  margin: 0;
+  line-height: 1;
+}
+
+.chrome:before {
+  content: 'CHROME';
+  position: absolute;
+  left: 0;
+  top: 0;
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 0;
+  /* padding-right: 300px; */
+  -webkit-animation-name: chrome_effect;
+  -webkit-animation-duration: 6s;
+  -webkit-animation-delay: 2s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+.dreams {
+  /* position: absolute; */
+  /* margin: 0px; */
+  font-family: 'Helvetica', cursive;
+  font-size: 100px;
+  color: rgb(75, 127, 223) ;
+  transform:rotate(-15deg);
+  -ms-transform:rotate(-15deg); /* IE 9 */
+  -webkit-transform:rotate(-15deg); /* Safari and Chrome */
+  /* margin-left: 400px; */
+  /* margin-top: -120px; */
+  -webkit-text-stroke: 1px #ffcc00;
+  -webkit-filter: drop-shadow(2px 2px 20px #ffcc00);
+  z-index: 20;
+}
+
+.windows .dreams {
+  -webkit-text-stroke: 4px #f008b7;
+}
+
+.animation1 {
+    opacity: 0;
+    animation-name: animation1;
+    animation-delay: 1s;
+    animation-duration: 2s;
+    transition: ease-in;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animation1 {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+
+.animation2 {
+    opacity: 0;
+    animation-name: animation2;
+    animation-delay: 2.5s;
+    animation-duration: 2s;
+    transition: ease-in;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animation2 {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+
+.animation3 {
+    opacity: 0;
+    animation-name: animation3;
+    animation-delay: 4s;
+    animation-duration: 2s;
+    transition: ease-in;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animation3 {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
