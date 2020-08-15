@@ -34,7 +34,6 @@ export const login = (username, password, history) => (dispatch) => {
 export const loginCheck = () => (dispatch) => {
   axios.get('/api/users/logincheck')
     .then((res) => {
-      // console.log(res.data);
       dispatch({
         type: USER_TYPES.LOGIN_CHECK,
         userData: res.data,

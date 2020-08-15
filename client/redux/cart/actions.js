@@ -10,7 +10,6 @@ const axios = require('axios');
 export const addToCart = (movieId, quantity, title) => async (dispatch) => {
   await axios.post('/api/cart/addtocart', { movieId, quantity })
     .then((res) => {
-      console.log(res);
       if (res.status === 204) {
         Alert.error(`Bummer! We don't have enough copies of ${title} to fulfill that order!`, {
           effect: 'slide',
@@ -26,7 +25,6 @@ export const addToCart = (movieId, quantity, title) => async (dispatch) => {
           effect: 'slide',
           timeout: 1500,
         });
-        console.log('UPDATED STORE', store.getState().cartReducer);
       }
     });
 };
@@ -146,7 +144,6 @@ export const editCartQuantity = (movieId, cartId, quantity) => async (dispatch) 
 export const checkoutCart = () => async (dispatch) => {
   await axios.put('/api/cart/checkoutCart')
     .then((res) => {
-      // console.log('CHECKOUT', res);
       if (res.data.length) {
         dispatch({
           type: CART_TYPES.CHECKOUT_CART,

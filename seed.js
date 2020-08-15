@@ -49,28 +49,28 @@ const seed = async () => {
 
   User.create({
     username: 'admin',
-    password: 'password123',
+    password: 'Bloccbuster123$',
     isAdmin: true,
   });
 
   User.create({
     username: 'Nick',
-    password: 'password123',
+    password: 'Bloccbuster123$',
   });
 
   User.create({
     username: 'Chad',
-    password: 'password123',
+    password: 'Bloccbuster123$',
   });
 
   User.create({
     username: 'Shruti',
-    password: 'password123',
+    password: 'Bloccbuster123$',
   });
 
   User.create({
     username: 'Kwon',
-    password: 'password123',
+    password: 'Bloccbuster123$',
   });
 };
 

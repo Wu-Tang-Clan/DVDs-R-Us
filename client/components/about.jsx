@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import YouTube from 'react-youtube';
 
 const YOUTUBE_ID = 'Zc4uTz9-Q1Q';
@@ -11,9 +11,13 @@ const About = () => {
       autoplay: 1,
     },
   };
+
+  useEffect(() => {
+    window.scroll(0, 0);
+  });
+
   return (
-    <div style={{ marginTop: '3.25rem' }}>
-      <h2 className="title is-2" style={{ textAlign: 'center' }}>THIS IS DVD!</h2>
+    <div style={{ marginTop: '3.75rem' }}>
       <div className="box" style={{ display: 'flex', justifyContent: 'space-around' }}>
         <YouTube videoId={YOUTUBE_ID} opts={opts} />
       </div>

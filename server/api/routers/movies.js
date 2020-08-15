@@ -25,8 +25,7 @@ movieRouter.post('/imdbsearch', async (req, res) => {
 
 movieRouter.post('/order', async (req, res) => {
   const { id } = req.body;
-  const checkMovie = await Movie.findAll({ where: { id } });
-
+  const checkMovie = await Movie.findOne({ where: { id } });
   if (checkMovie) {
     res.sendStatus(204);
   } else {

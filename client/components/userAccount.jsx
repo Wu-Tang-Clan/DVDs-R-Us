@@ -16,6 +16,7 @@ class UserAccount extends Component {
   }
 
   componentDidMount() {
+    window.scroll(0, 0);
     const {
       getMovies,
       getUserPreviousReviews,
@@ -126,7 +127,6 @@ class UserAccount extends Component {
               <p className="title is-4">My Previous Orders</p>
               <div id="prevUserOrderBox" className="adminBox">
                 {
-                  // console.log(inactiveOrders)
                   inactiveOrders.length
                     // eslint-disable-next-line max-len
                     ? inactiveOrders.filter((order) => order.username === loggedInUser.username).map((order) => (
