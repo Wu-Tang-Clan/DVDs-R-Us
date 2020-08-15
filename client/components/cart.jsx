@@ -62,7 +62,6 @@ class Cart extends Component {
   }
 
   async handleChangeInCartQuantity(movieId, cartId, quantity) {
-    console.log('handleChangeInCartQuantity --- ', movieId, cartId, quantity);
     const { editCartQuantity } = this.props;
     await editCartQuantity(movieId, cartId, quantity);
   }
@@ -73,7 +72,6 @@ class Cart extends Component {
     const parsedOrders = orderParser(orders);
     const orderList = parsedOrders.map((order) => {
       const movie = movies.filter((movie) => movie.id === order.movieId);
-      // console.log('single movie ', movie);
       return (
         <div className="container" key={order.id}>
           <div className="card" style={{ backgroundColor: '#1030AD', height: '150px' }}>
@@ -89,6 +87,7 @@ class Cart extends Component {
               </div>
               <div className="column is-one-fifth">
                 <p className="subtitle is-6">
+                  $
                   {((order.quantity * 99) / 100)}
                 </p>
               </div>
@@ -158,7 +157,7 @@ class Cart extends Component {
           }
                 </div>
                 <div className="box column is-one-fifth">
-                  <p className="subtitle is-4">{`Your Total is ${total.toFixed(2)}`}</p>
+                  <p className="subtitle is-4">{`Your Total is $${total.toFixed(2)}`}</p>
                 </div>
                 <StripeCheckout
                   stripeKey={PUBLISHING_KEY}

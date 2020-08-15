@@ -5,6 +5,7 @@ import { LoopCircleLoading } from 'react-loadingg';
 // eslint-disable-next-line react/prefer-stateless-function
 class LogOut extends Component {
   componentDidMount() {
+    window.scroll(0, 0);
     const { props: { history } } = this.props;
     setTimeout(() => {
       history.push('/');

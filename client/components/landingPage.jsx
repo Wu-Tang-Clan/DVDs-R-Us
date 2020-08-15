@@ -11,18 +11,26 @@ const landingPage = () => (
     <Bounce left>
       <h1 className="chrome">No Rewinding</h1>
     </Bounce>
-    {/* <h3 className="dreams">Only Playing</h3> */}
-    <figure className="image is-128by128">
-      <img style={{ padding: '75px' }} src={insideBlockbuster} alt="inside-blockbuster" />
-    </figure>
-    <div className="box">
-      <p className="title is-5" style={{ color: 'white', textAlign: 'center' }}>
-        The days of "Be Kind, Rewind" are OVER
-      </p>
-      <p className="title is-4" style={{ color: 'white', textAlign: 'center' }}>
-        This is DVD
-      </p>
+    <div style={{
+      display: 'flex', justifyContent: 'center', alignItems: 'flex-end', marginTop: '20px',
+    }}
+    >
+      <div style={{ display: 'flex' }}>
+        <p className="title is-5 animation1">
+          The days of "Be Kind, Rewind" are OVER
+        </p>
+        <p className="title is-5 animation2" style={{ marginLeft: '5px' }}>
+          This is DVD
+        </p>
+        <p className="title is-5 animation3" style={{ marginLeft: '5px' }}>
+          This is BLOCCBUSTER
+        </p>
+      </div>
+
     </div>
+    <figure className="image is-128by128">
+      <img style={{ padding: '20px' }} src={insideBlockbuster} alt="inside-blockbuster" />
+    </figure>
   </div>
 );
 

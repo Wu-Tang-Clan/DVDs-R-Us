@@ -16,6 +16,7 @@ class Search extends Component {
   }
 
   async componentDidMount() {
+    window.scroll(0, 0);
     // eslint-disable-next-line no-shadow
     const { getMovies } = this.props;
     await getMovies();

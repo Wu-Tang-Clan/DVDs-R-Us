@@ -11,6 +11,10 @@ class Signup extends Component {
     password: '',
   };
 
+  componentDidMount() {
+    window.scroll(0, 0);
+  }
+
   onSubmit = async (e) => {
     e.preventDefault();
     const { username, password } = this.state;

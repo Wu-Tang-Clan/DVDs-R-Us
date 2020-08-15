@@ -190,10 +190,6 @@ cartRouter.put('/editcartquantity/:movieid/:cartid', async (req, res) => {
 });
 
 cartRouter.put('/checkoutCart', async (req, res) => {
-  // const allOrders =    await Order.findAll({ where: { movieId: req.params.movieid,
-  // CartId: req.params.cartid } });
-  // console.log("allOrders-- ",allOrders);
-  // console.log("allOrders-- ",allOrders.length);
   if (req.user) {
     const currentCart = await Cart.findOne({ where: { UserId: req.user.id, isActive: true } });
     await currentCart.update({ isActive: false });
@@ -219,7 +215,6 @@ cartRouter.put('/checkoutCart', async (req, res) => {
 });
 
 cartRouter.post('/checkout', async (req, res) => {
-  // console.log(req.body);
   try {
     const { token, total, orders } = req.body;
     const customer = await stripe.customers.create({
@@ -232,25 +227,23 @@ cartRouter.post('/checkout', async (req, res) => {
         amount: total * 100,
         currency: 'usd',
         customer: customer.id,
-        receipt_email: token.email,
+        // receipt_email: token.email,
         description: orders.map((order) => `${order.name} (${order.quantity})`).join(', '),
+        shipping: {
+          name: token.card.name,
+          address: {
+            line1: token.card.address_line1,
+            line2: token.card.address_line2,
+            city: token.card.address_city,
+            country: token.card.address_country,
+            postal_code: token.card.address_zip,
+          },
+        },
       },
-      //   shipping: {
-      //     name: token.card.name,
-      //     address: {
-      //       line1: token.card.address_line1,
-      //       line2: token.card.address_line2,
-      //       city: token.card.address_city,
-      //       country: token.card.address_country,
-      //       postal_code: token.card.address_zip,
-      //     },
-      //   },
-      // },
       {
         idempotencyKey,
       },
     );
-    // console.log('Charge: ', { charge });
     res.sendStatus(200);
   } catch (e) {
     // console.error('Error: ', e);
@@ -259,38 +252,3 @@ cartRouter.post('/checkout', async (req, res) => {
 });
 
 module.exports = cartRouter;
-
-// cartRouter.put('/editcartquantity/:movieid/:cartid', async (req, res) => {
-//   // const allOrders =    await Order.findAll({ where: { movieId: req.params.movieid,
-//   // CartId: req.params.cartid } });
-//   // console.log("allOrders-- ",allOrders);
-//   // console.log("allOrders-- ",allOrders.length);
-//   const currOrders = await Order.findAll({ where: { movieId: req.params.movieid, CartId: req.params.cartid } });
-//   const currQuantity = currOrders.reduce((a, b) => {
-//     // eslint-disable-next-line no-param-reassign
-//     a += b.quantity;
-//     return a;
-//   }, 0);
-//   await Order.update({ quantity: 0 },
-//     { where: { movieId: req.params.movieid, CartId: req.params.cartid } });
-//   const movie = await Movie.findOne({ where: { id: req.params.movieid } });
-//   await Movie.update({ stock: (movie.stock + currQuantity) }, { where: { id: req.params.movieid } });
-//   const order = await Order.findOne({
-//     where: {
-//       movieId: req.params.movieid,
-//       CartId: req.params.cartid,
-//     },
-//   });
-//   await Order.update({ quantity: req.body.quantity },
-//     { where: { movieId: order.movieId, CartId: order.CartId, id: order.id } });
-//   const updatedMovie = await Movie.findOne({ where: { id: req.params.movieid } });
-//   await Movie.update({ stock: updatedMovie.stock + req.body.quantity }, { where: { id: req.params.movieid } });
-//   await Order.destroy({
-//     where: {
-//       movieId: req.params.movieid,
-//       CartId: req.params.cartid,
-//       quantity: 0,
-//     },
-//   });
-//   res.sendStatus(200);
-// });

@@ -26,7 +26,6 @@ const movieReducer = (state = initialState, action) => {
     case MOVIE_TYPES.REMOVE_MOVIE:
       return {
         ...state,
-        // removedMovieResults:  action.updatedmovies,
         movies: action.updatedmovies,
       };
     case MOVIE_TYPES.ADD_STOCK:

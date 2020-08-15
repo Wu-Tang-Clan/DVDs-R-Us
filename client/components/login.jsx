@@ -12,6 +12,7 @@ class Login extends Component {
   }
 
   onSubmit = async (e) => {
+    window.scroll(0, 0);
     e.preventDefault();
     const { username, password } = this.state;
     const {

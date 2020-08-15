@@ -16,7 +16,6 @@ class SingleMovieBox extends Component {
   render() {
     const { movie, history, addToCart } = this.props;
     const { quantity } = this.state;
-    // console.log(movie);
     return (
       <div key={movie.id} className="box">
         <div className="columns is-vcentered">

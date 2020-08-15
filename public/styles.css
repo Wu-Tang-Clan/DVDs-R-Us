@@ -196,3 +196,45 @@ p {
 .windows .dreams {
   -webkit-text-stroke: 4px #f008b7;
 }
+
+.animation1 {
+    opacity: 0;
+    animation-name: animation1;
+    animation-delay: 1s;
+    animation-duration: 2s;
+    transition: ease-in;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animation1 {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+
+.animation2 {
+    opacity: 0;
+    animation-name: animation2;
+    animation-delay: 2.5s;
+    animation-duration: 2s;
+    transition: ease-in;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animation2 {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+
+.animation3 {
+    opacity: 0;
+    animation-name: animation3;
+    animation-delay: 4s;
+    animation-duration: 2s;
+    transition: ease-in;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animation3 {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
