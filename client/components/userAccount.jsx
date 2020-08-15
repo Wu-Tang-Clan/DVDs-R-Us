@@ -44,9 +44,14 @@ class UserAccount extends Component {
       loggedInUser,
       props: {
         history,
+        match: {
+          params: {
+            id,
+          },
+        },
       },
     } = this.props;
-    await changeUserName(loggedInUser.id, loggedInUser.username, username, history);
+    await changeUserName(id, loggedInUser.username, username, history);
     this.setState({ username: '' });
   }
 

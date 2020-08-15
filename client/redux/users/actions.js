@@ -116,8 +116,8 @@ export const getReviews = (id) => (dispatch) => {
     });
 };
 
-export const toggleAdmin = (userId, userName, isAdmin) => (dispatch) => {
-  axios.put(`/api/users/setadmin/${userId}`, { isAdmin });
+export const toggleAdmin = (userId, userName, isAdmin) => async (dispatch) => {
+  await axios.put(`/api/users/setadmin/${userId}`, { isAdmin });
   axios.get('api/users/')
     .then((res) => {
       dispatch({
@@ -138,10 +138,11 @@ export const toggleAdmin = (userId, userName, isAdmin) => (dispatch) => {
     });
 };
 
-export const changeUserName = (userId, userName, newUserName) => (dispatch) => {
-  axios.put(`/api/users/changeusername/${userId}`, { newUserName });
+export const changeUserName = (userId, userName, newUserName) => async (dispatch) => {
+  await axios.put(`/api/users/changeusername/${userId}`, { newUserName });
   axios.get(`api/users/${userId}`)
     .then((res) => {
+      console.log(res.data);
       dispatch({
         type: USER_TYPES.CHANGE_USERNAME,
         users: res.data,
